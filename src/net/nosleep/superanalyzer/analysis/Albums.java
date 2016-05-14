@@ -162,7 +162,8 @@ class Albums extends Hashtable
 			if (s.getAvgPlayCount() < 0.5)
 				continue;
 
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating(), getColor(a.getGenre())));
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, getColor(a.getGenre()))); //dividing by two is easier than changing getAvgRating to double
+			
 		}
 
 		return points;
