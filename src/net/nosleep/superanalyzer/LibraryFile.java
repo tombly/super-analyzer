@@ -75,14 +75,14 @@ public class LibraryFile
 
 		// try 'home/Music'
 		String musicFolder = homeFolder + File.separator + "Music" + File.separator + "iTunes" + File.separator
-				+ "iTunes Music Library.xml";
+				+ "iTunes Library.xml";
 		_file = new File(musicFolder);
 		if (_file.exists() == true)
 			return;
 
 		// try 'home/My Music'
 		musicFolder = homeFolder + File.separator + "My Music" + File.separator + "iTunes" + File.separator
-				+ "iTunes Music Library.xml";
+				+ "iTunes Library.xml";
 		_file = new File(musicFolder);
 		if (_file.exists() == true)
 			return;
@@ -112,7 +112,7 @@ public class LibraryFile
 		if (_file == null)
 		{
 			// see if its in the current folder
-			_file = new File("iTunes Music Library.xml");
+			_file = new File("iTunes Library.xml");
 			if (_file.exists() == false)
 			{
 				_file = null;
@@ -120,8 +120,8 @@ public class LibraryFile
 						JOptionPane.ERROR_MESSAGE);
 
 				JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
-				chooser.setFileFilter(new GenericFileFilter("iTunes Music Library File", ".xml",
-						"iTunes Music Library.xml"));
+				chooser.setFileFilter(new GenericFileFilter("iTunes Library File", ".xml",
+						"iTunes Library.xml"));
 				int returnVal = chooser.showOpenDialog(_window);
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
