@@ -290,7 +290,7 @@ public class Stat
 	}
 
 	/**
-	 * Calculates the average rating of the tracks.
+	 * Calculates the average rating of the tracks going from 0 (0 stars) to 10 (5 stars)
 	 */
 	public double getAvgRating()
 	{
