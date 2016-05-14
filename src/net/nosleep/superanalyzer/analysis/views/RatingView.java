@@ -147,17 +147,22 @@ public class RatingView implements IStatisticView
 			itemStats = _analysis.getStats(item.getKind(), item.getValue());
 		}
 
-		Vector<Double> counts = new Vector<Double>(6);
+		Vector<Double> counts = new Vector<Double>(11);
 		double[] ratings = itemStats.getRatings();
 		for (int i = 0; i < ratings.length; i++)
 			counts.addElement(new Double(ratings[i]));
 
-		Vector<String> labels = new Vector<String>(6);
+		Vector<String> labels = new Vector<String>(11);
 		labels.add(new String(Misc.getString("NOT_RATED")));
+		labels.add(new String("0.5 " + Misc.getString("STAR")));
 		labels.add(new String("1 " + Misc.getString("STAR")));
+		labels.add(new String("1.5 " + Misc.getString("STAR")));
 		labels.add(new String("2 " + Misc.getString("STARS")));
+		labels.add(new String("2.5 " + Misc.getString("STARS")));
 		labels.add(new String("3 " + Misc.getString("STARS")));
+		labels.add(new String("3.5 " + Misc.getString("STARS")));
 		labels.add(new String("4 " + Misc.getString("STARS")));
+		labels.add(new String("4.5 " + Misc.getString("STARS")));
 		labels.add(new String("5 " + Misc.getString("STARS")));
 
 		PiePlot3D plot = (PiePlot3D) _chart.getPlot();
