@@ -141,7 +141,7 @@ public class Stat
 		// accumulate the play count
 		playCountSum += playCount;
 
-		// increment the count of play count
+		// increment the count of play count (playcount is a hashset)
 		Integer playCountCount = (Integer) playCounts.get(new Integer(playCount));
 		if (playCountCount == null)
 			playCounts.put(new Integer(playCount), new Integer(1));
