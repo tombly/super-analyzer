@@ -48,19 +48,25 @@ import java.util.*;
 /**
  * This is the core of the application. When the user tells the UI object to
  * perform an analysis, it extracts all the track info from the library file and
- * then gives the track info to an Analysis object to analyze.
+ * then gives the track info to an Analysis object to analyze.<br><br>
  * 
  * The Analysis object is just a container for collections of information about
  * the music library. There are 5 primary categories of information collected
- * about the library: artists, albums, genres, tracks, and decades.
+ * about the library: artists, albums, genres, tracks, and decades.<br><br>
  * 
  * All this class does is make sure that each collection of information gets a
  * chance to analyze every track in the library.
  */
 public class Analysis
 {
-	/*
-	 * There are five basic kinds of statistics
+	/**
+	 * There are five basic kinds of statistics:<br>
+	 * TRACK = 1<br>
+	 * ARTIST = 2<br>
+	 * ALBUM = 3<br>
+	 * DECADE = 4<br>
+	 * GENRE = 5<br>
+
 	 */
 	public final static int KIND_TRACK = 1;
 	public final static int KIND_ARTIST = 2;
