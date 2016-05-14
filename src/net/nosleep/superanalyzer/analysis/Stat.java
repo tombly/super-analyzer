@@ -82,7 +82,7 @@ public class Stat
 		totalTime = 0;
 		compilationCount = 0;
 		hours = new int[24];
-		ratings = new double[6];
+		ratings = new double[11];
 		bitRate = new int[5];
 		trackYear = new Hashtable();
 		playYear = new Hashtable();
@@ -101,7 +101,7 @@ public class Stat
 	{
 		int sum = 0;
 
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < ratings.length; i++)
 			sum += ratings[i] * i;
 
 		return sum;
