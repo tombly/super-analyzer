@@ -342,16 +342,26 @@ class Track
 		{
 		case 0:
 			return new Integer(0);
-		case 20:
+		case 10:
 			return new Integer(1);
-		case 40:
+		case 20:
 			return new Integer(2);
-		case 60:
+		case 30:
 			return new Integer(3);
-		case 80:
+		case 40:
 			return new Integer(4);
-		case 100:
+		case 50:
 			return new Integer(5);
+		case 60:
+			return new Integer(6);
+		case 70:
+			return new Integer(7);
+		case 80:
+			return new Integer(8);
+		case 90:
+			return new Integer(9);
+		case 100:
+			return new Integer(10);
 		default:
 			return null;
 		}
