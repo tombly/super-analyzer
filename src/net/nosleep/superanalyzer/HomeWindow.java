@@ -22,6 +22,9 @@ package net.nosleep.superanalyzer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
@@ -140,7 +143,8 @@ public class HomeWindow extends JFrame
 
 		_rootPanel = new JPanel(new BorderLayout());
 		_rootPanel.setOpaque(false);
-		_rootPanel.setPreferredSize(new Dimension(900, 500));
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		_rootPanel.setPreferredSize(new Dimension(gd.getDisplayMode().getWidth()/2, gd.getDisplayMode().getHeight()/2)); //window adapts to screen aspect ratio
 		_rootPanel.add(_contentPanel);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
