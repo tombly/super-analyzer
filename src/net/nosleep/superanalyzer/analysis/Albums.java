@@ -24,6 +24,7 @@ import java.util.*;
 
 import net.nosleep.superanalyzer.util.Constants;
 import net.nosleep.superanalyzer.util.DPoint;
+import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.StringInt;
 
 /**
@@ -79,7 +80,7 @@ class Albums extends Hashtable
 				tracksInAlbum += tracksOnDisc;
 			}
 
-			if (Constants.writeMissingToStdOut == true)
+			if (Constants.writeMissingToStdOut == true) //for debugging
 			{
 				if (tracksInAlbum != album.getStats().getTrackCount())
 				{
@@ -149,6 +150,7 @@ class Albums extends Hashtable
 	 * Creates a set of data points where each data point represents the average
 	 * song play count and the average song rating for each album.
 	 */
+	@SuppressWarnings("rawtypes")
 	public Vector getAlbumPlayCountVsRating()
 	{
 		Vector points = new Vector(1000);
