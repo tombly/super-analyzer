@@ -50,6 +50,7 @@ class Albums extends Hashtable
 	 * Calculates the average completeness of all the albums in the library
 	 * (i.e. what percentage of each album is complete?).
 	 */
+	@SuppressWarnings("unused")
 	public double getAvgAlbumCompleteness()
 	{
 		long outOfSum = 0, trackCountSum = 0;
