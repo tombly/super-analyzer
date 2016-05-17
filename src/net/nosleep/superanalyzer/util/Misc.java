@@ -298,7 +298,7 @@ public class Misc
 		long total = rt.totalMemory();
 		long max = rt.maxMemory();
 
-		System.out.println("Memory (" + tag + "): " + free + "/" + total + " (max " + max + ")");
+		System.out.println("Memory (" + tag + "): " + getFormattedByteCount(free) + "/" + getFormattedByteCount(total) + " (max " + getFormattedByteCount(max) + ")");
 	}
 
 }
