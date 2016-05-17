@@ -30,7 +30,7 @@ import org.jfree.data.time.Day;
  * this container can describe any of the primary categories; e.g. the
  * trackCount could refer to how many tracks are by a certain artist, or in a
  * certain genre, etc. So, each collection has one of these objects that stores
- * the core statistics for the collection.
+ * the core statistics for the collection.<br><br>
  * 
  * Note: Since there are so many of these objects (one for every artist/album/
  * genre/decade) this class needs to be as optimized as possible in its memory

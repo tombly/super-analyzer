@@ -18,7 +18,10 @@ import org.jfree.util.PublicCloneable;
 /**
  * @author Elias
  * 
- * This class acts like {@link org.jfree.charts.labels.StandardXYToolTipGenerator}, except for displaying the item key in the tooltip as opposed to the standard series key.
+ *         This class acts like
+ *         {@link org.jfree.charts.labels.StandardXYToolTipGenerator}, except
+ *         for displaying the item key in the tooltip as opposed to the standard
+ *         series key.
  *
  */
 public class ItemXYToolTipGenerator extends AbstractXYItemLabelGenerator
