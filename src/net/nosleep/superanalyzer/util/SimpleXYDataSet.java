@@ -150,7 +150,7 @@ public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 
 	@Override
 	public Comparable getItemKey(int series, int item) {
-		if (series !=1) return null;
+		if (series != 0) return null;
 		return ((DPoint) _points.elementAt(item)).name; 
 	}
 
