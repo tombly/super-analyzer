@@ -24,7 +24,7 @@ import java.util.*;
 /**
  * This class is a holder for album information. It includes a Stat object that
  * has statistics about an album, along with some other characteristics about
- * albums. It does _not_ store the name of the album, since albums are hashed by
+ * albums. It does <b>not</b> store the name of the album, since albums are hashed by
  * their name, so we do not want to store it twice.
  */
 public class Album implements StatHolder
