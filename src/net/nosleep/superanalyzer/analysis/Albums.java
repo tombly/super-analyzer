@@ -176,19 +176,21 @@ class Albums extends Hashtable
 
 	public Vector getAlbumPlayCountVsAge()
 	{
-		Vector points = new Vector(1000);
+		Vector<DPoint> points = new Vector(1000);
 		genreColors = new Hashtable(10);
 
-		Enumeration e = elements();
-		while (e.hasMoreElements())
+		Enumeration keysEnumeration = keys();
+		while (keysEnumeration.hasMoreElements())
 		{
-			Album a = (Album) e.nextElement();
+			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album name as a String
+			Album a = (Album) get(currentKey);
 			Stat s = a.getStats();
 
 			// if (s.getAvgPlayCount() < 0.5)
 			// continue;
 
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgAge(), getColor(a.getGenre())));
+			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgAge(), getColor(a.getGenre()), currentKey));
 		}
 
 		return points;
