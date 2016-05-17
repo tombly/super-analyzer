@@ -30,12 +30,6 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
-import net.nosleep.superanalyzer.analysis.Analysis;
-import net.nosleep.superanalyzer.panels.HomePanel;
-import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.SimpleXYDataSet;
-import net.nosleep.superanalyzer.util.Theme;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -45,6 +39,13 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
+
+import net.nosleep.superanalyzer.analysis.Analysis;
+import net.nosleep.superanalyzer.panels.HomePanel;
+import net.nosleep.superanalyzer.util.ItemXYToolTipGenerator;
+import net.nosleep.superanalyzer.util.Misc;
+import net.nosleep.superanalyzer.util.SimpleXYDataSet;
+import net.nosleep.superanalyzer.util.Theme;
 
 public class LikesView implements IStatisticView
 {
@@ -98,7 +99,7 @@ public class LikesView implements IStatisticView
 		XYPlot plot = (XYPlot) _chart.getPlot();
 
 		ChartUtilities.applyCurrentTheme(_chart);
-
+		
 		plot.setDomainPannable(true);
 		plot.setRangePannable(true);
 		plot.setDomainZeroBaselineVisible(true);
@@ -135,6 +136,8 @@ public class LikesView implements IStatisticView
 
 		// format the line renderer after applying the theme
 		XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
+		
+		renderer.setBaseToolTipGenerator(new ItemXYToolTipGenerator());
 
 		renderer.setBaseShapesVisible(true);
 		renderer.setDrawOutlines(true);
