@@ -163,7 +163,7 @@ class Albums extends Hashtable
 			Album a = (Album) (get(currentKey));
 			Stat s = a.getStats();
 
-			if (s.getAvgPlayCount() < 0.5)
+			if (s.getAvgPlayCount() < 0.5 || s.getTrackCount() < 3) //if the average play count is less than 0.5 or the album has less than 3 tracks, it gets skipped
 				continue;
 
 			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
