@@ -145,11 +145,11 @@ public class ItemXYToolTipGenerator extends AbstractXYItemLabelGenerator
         return result;
     }
 
-	protected Object[] createItemArray(KeyXYDataset dataset, int series, int item) {
+	protected Object[] createItemArray(XYDataset dataset, int series, int item) {
 
 		Object[] result = super.createItemArray(dataset, series, item);
-		result[0] = dataset.getItemKey(series, item).toString();
-
+		result[0] = ((KeyXYDataset)dataset).getItemKey(series, item).toString();
+		
 		return result;
 	}
 
