@@ -24,6 +24,7 @@ import java.util.*;
 
 import net.nosleep.superanalyzer.util.Constants;
 import net.nosleep.superanalyzer.util.DPoint;
+import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.StringInt;
 
 /**
@@ -50,6 +51,7 @@ class Albums extends Hashtable
 	 * Calculates the average completeness of all the albums in the library
 	 * (i.e. what percentage of each album is complete?).
 	 */
+	@SuppressWarnings("unused")
 	public double getAvgAlbumCompleteness()
 	{
 		long outOfSum = 0, trackCountSum = 0;
@@ -78,7 +80,7 @@ class Albums extends Hashtable
 				tracksInAlbum += tracksOnDisc;
 			}
 
-			if (Constants.writeMissingToStdOut == true)
+			if (Constants.writeMissingToStdOut == true) //for debugging
 			{
 				if (tracksInAlbum != album.getStats().getTrackCount())
 				{
@@ -148,21 +150,24 @@ class Albums extends Hashtable
 	 * Creates a set of data points where each data point represents the average
 	 * song play count and the average song rating for each album.
 	 */
+	@SuppressWarnings("rawtypes")
 	public Vector getAlbumPlayCountVsRating()
 	{
-		Vector points = new Vector(1000);
+		Vector<DPoint> points = new Vector(1000);
 		genreColors = new Hashtable(10);
 
-		Enumeration e = elements();
-		while (e.hasMoreElements())
+		Enumeration keysEnumeration = keys();
+		while (keysEnumeration.hasMoreElements())
 		{
-			Album a = (Album) e.nextElement();
+			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album name as a String
+			Album a = (Album) (get(currentKey));
 			Stat s = a.getStats();
 
-			if (s.getAvgPlayCount() < 0.5)
+			if (s.getAvgPlayCount() < 0.5 || s.getTrackCount() < 3) //if the average play count is less than 0.5 or the album has less than 3 tracks, it gets skipped
 				continue;
 
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, getColor(a.getGenre()))); //dividing by two is easier than changing getAvgRating to double
+			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, getColor(a.getGenre()), currentKey)); //dividing by two is easier than changing getAvgRating to double
 			
 		}
 
@@ -171,19 +176,21 @@ class Albums extends Hashtable
 
 	public Vector getAlbumPlayCountVsAge()
 	{
-		Vector points = new Vector(1000);
+		Vector<DPoint> points = new Vector(1000);
 		genreColors = new Hashtable(10);
 
-		Enumeration e = elements();
-		while (e.hasMoreElements())
+		Enumeration keysEnumeration = keys();
+		while (keysEnumeration.hasMoreElements())
 		{
-			Album a = (Album) e.nextElement();
+			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album name as a String
+			Album a = (Album) get(currentKey);
 			Stat s = a.getStats();
 
 			// if (s.getAvgPlayCount() < 0.5)
 			// continue;
 
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgAge(), getColor(a.getGenre())));
+			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgAge(), getColor(a.getGenre()), currentKey));
 		}
 
 		return points;

@@ -32,7 +32,7 @@ import org.jfree.data.xy.XYDataset;
  * demo purposes - it is NOT intended to show how you should go about writing
  * your own datasets.
  */
-public class SimpleXYDataSet extends AbstractXYDataset implements XYDataset
+public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 {
 
 	Vector _points;
@@ -146,6 +146,12 @@ public class SimpleXYDataSet extends AbstractXYDataset implements XYDataset
 	public int getItemCount(int series)
 	{
 		return _points.size();
+	}
+
+	@Override
+	public Comparable getItemKey(int series, int item) {
+		if (series != 0) return null;
+		return ((DPoint) _points.elementAt(item)).name; 
 	}
 
 }

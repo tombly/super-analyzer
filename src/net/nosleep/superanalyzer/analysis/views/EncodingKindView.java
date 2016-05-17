@@ -158,7 +158,7 @@ public class EncodingKindView implements IStatisticView
 			Integer count = (Integer) kindHash.get(kindName);
 			// if (count.intValue() > 0) {
 			_dataset.setValue(kindName, new Double(count));
-			plot.setSectionPaint(kindName, colors[10 - (i % colors.length)]);	// mod it in case we don't have enough colors
+			plot.setSectionPaint(kindName, colors[5 - ((i) % colors.length)]);	// mod it in case we don't have enough colors
 			i++;
 			if (i > colors.length)
 				i = 0;

@@ -93,6 +93,7 @@ public class TagCheck
 	 * Collects information about tag information that is missing. The results
 	 * are stored in an array for use by the caller.
 	 */
+	@SuppressWarnings("unused")
 	public void check(Track track)
 	{
 		boolean anythingMissing = false;
@@ -134,7 +135,7 @@ public class TagCheck
 
 		if (track.getTrackCount() == null)
 		{
-			if (Constants.writeMissingToStdOut == true)
+			if (Constants.writeMissingToStdOut == true) //for debugging
 				System.out.println("Track count missing for: " + track.getName());
 			tagAlbumTrackCount++;
 			anythingMissing = true;
