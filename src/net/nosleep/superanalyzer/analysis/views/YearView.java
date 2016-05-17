@@ -216,7 +216,7 @@ public class YearView implements IStatisticView
 		NumberAxis axis = (NumberAxis) plot.getRangeAxis();
 
 		axis.setAutoRangeStickyZero(false);
-		axis.setRange(0, axis.getUpperBound());
+		axis.setRange(-axis.getUpperBound()*0.015, axis.getUpperBound());
 
 		XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
 
