@@ -216,11 +216,12 @@ public class YearView implements IStatisticView
 		NumberAxis axis = (NumberAxis) plot.getRangeAxis();
 
 		axis.setAutoRangeStickyZero(false);
+		axis.setRange(0, axis.getUpperBound());
 
 		XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
 
 		renderer.setSeriesPaint(0, Theme.getColorSet()[0]);
-		renderer.setSeriesPaint(1, Theme.getColorSet()[2]);
+		renderer.setSeriesPaint(1, Theme.getColorSet()[6]);
 
 	}
 
