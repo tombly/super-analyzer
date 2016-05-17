@@ -2,6 +2,11 @@ package net.nosleep.superanalyzer.util;
 
 import org.jfree.data.xy.XYDataset;
 
+/**
+ * 
+ * A dataset with keys and x,y values for each entry.
+ *
+ */
 public interface KeyXYDataset extends XYDataset {
 	/**
      * Returns the number of items in the series.
