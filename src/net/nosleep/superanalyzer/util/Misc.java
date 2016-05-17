@@ -208,6 +208,35 @@ public class Misc
 		DecimalFormat decimalFormat = new DecimalFormat("0.0");
 		return decimalFormat.format(result) + " " + units;
 	}
+	
+	public static String getFormattedByteCount(long bytes)
+	{
+		long result = bytes;
+		String units = "MB";
+
+		// make it into KB
+		result /= 1024.0;
+
+		// make it into MB
+		result /= 1024.0;
+
+		// if more than a gigabyte, make it into GB
+		if (result / 1024.0 > 1.0)
+		{
+			result /= 1024.0;
+			units = "GB";
+
+			// if more than a terabyte, make it into TB
+			if (result / 1024.0 > 1.0)
+			{
+				result /= 1024.0;
+				units = "TB";
+			}
+		}
+
+		DecimalFormat decimalFormat = new DecimalFormat("0.0");
+		return decimalFormat.format(result) + " " + units;
+	}
 
 	/**
 	 * Returns today's date in the form MM/DD/YY.
