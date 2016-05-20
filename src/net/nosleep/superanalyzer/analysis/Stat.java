@@ -30,7 +30,7 @@ import org.jfree.data.time.Day;
  * this container can describe any of the primary categories; e.g. the
  * trackCount could refer to how many tracks are by a certain artist, or in a
  * certain genre, etc. So, each collection has one of these objects that stores
- * the core statistics for the collection.
+ * the core statistics for the collection.<br><br>
  * 
  * Note: Since there are so many of these objects (one for every artist/album/
  * genre/decade) this class needs to be as optimized as possible in its memory
@@ -82,7 +82,7 @@ public class Stat
 		totalTime = 0;
 		compilationCount = 0;
 		hours = new int[24];
-		ratings = new double[6];
+		ratings = new double[11];
 		bitRate = new int[5];
 		trackYear = new Hashtable();
 		playYear = new Hashtable();
@@ -101,7 +101,7 @@ public class Stat
 	{
 		int sum = 0;
 
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < ratings.length; i++)
 			sum += ratings[i] * i;
 
 		return sum;
@@ -141,7 +141,7 @@ public class Stat
 		// accumulate the play count
 		playCountSum += playCount;
 
-		// increment the count of play count
+		// increment the count of play count (playcount is a hashset)
 		Integer playCountCount = (Integer) playCounts.get(new Integer(playCount));
 		if (playCountCount == null)
 			playCounts.put(new Integer(playCount), new Integer(1));
@@ -290,7 +290,7 @@ public class Stat
 	}
 
 	/**
-	 * Calculates the average rating of the tracks.
+	 * Calculates the average rating of the tracks going from 0 (0 stars) to 10 (5 stars)
 	 */
 	public double getAvgRating()
 	{

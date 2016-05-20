@@ -30,19 +30,22 @@ public class DPoint
 	public double x;
 	public double y;
 	public Color color;
+	public String name;
 
-	public DPoint(double x, double y)
+	public DPoint(double x, double y, String name)
 	{
 		this.x = x;
 		this.y = y;
 		this.color = null;
+		this.name = name;
 	}
 
-	public DPoint(double x, double y, Color color)
+	public DPoint(double x, double y, Color color, String name)
 	{
 		this.x = x;
 		this.y = y;
 		this.color = color;
+		this.name = name;
 	}
 
 }
