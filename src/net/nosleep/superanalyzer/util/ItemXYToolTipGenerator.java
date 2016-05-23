@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
-import java.util.Date;
 
 import org.jfree.chart.labels.AbstractXYItemLabelGenerator;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
@@ -33,7 +32,7 @@ public class ItemXYToolTipGenerator extends AbstractXYItemLabelGenerator
 	private static final long serialVersionUID = 1985366627439816731L;
 
 	/** The default tooltip format. */
-	public static final String DEFAULT_TOOL_TIP_FORMAT = "{0}: ({1}, {2})";
+	public static final String DEFAULT_TOOL_TIP_FORMAT = "{0}: ({1}, {2}, {3})";
 	public String formatString;
 
 	/**
@@ -153,7 +152,14 @@ public class ItemXYToolTipGenerator extends AbstractXYItemLabelGenerator
 		Object[] result = super.createItemArray(dataset, series, item);
 		result[0] = ((KeyXYDataset)dataset).getItemKey(series, item).toString();
 		
-		return result;
+		Object[] newResult = new Object[4];
+		newResult[0] = result[0];
+		newResult[1] = result[1];
+		newResult[2] = result[2];
+				
+		newResult[3] = ((KeyXYDataset)dataset).getSeriesKey(series);
+		
+		return newResult;
 	}
 
 	/**
