@@ -30,7 +30,8 @@ public class DPoint
 	public double x;
 	public double y;
 	public Color color;
-	public String name;
+	public String name; // used for album name
+	public String secondName; //used for genre
 
 	public DPoint(double x, double y, String name)
 	{
@@ -46,6 +47,24 @@ public class DPoint
 		this.y = y;
 		this.color = color;
 		this.name = name;
+	}
+	
+	public DPoint(double x, double y, String name, String secondName)
+	{
+		this.x = x;
+		this.y = y;
+		this.color = null;
+		this.name = name;
+		this.secondName = secondName;
+	}
+
+	public DPoint(double x, double y, Color color, String name, String secondName)
+	{
+		this.x = x;
+		this.y = y;
+		this.color = color;
+		this.name = name;
+		this.secondName = secondName;
 	}
 
 }

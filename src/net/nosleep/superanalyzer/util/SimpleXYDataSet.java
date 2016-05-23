@@ -51,6 +51,11 @@ public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 		this.translate = 0.0;
 		_points = points;
 	}
+	
+	public SimpleXYDataSet()
+	{
+		this._points = null;
+	}
 
 	/**
 	 * Returns the translation factor.

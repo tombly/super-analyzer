@@ -42,6 +42,7 @@ import org.jfree.data.xy.XYDataset;
 
 import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.panels.HomePanel;
+import net.nosleep.superanalyzer.util.ColorSeriesXYDataSet;
 import net.nosleep.superanalyzer.util.ItemXYToolTipGenerator;
 import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.SimpleXYDataSet;
@@ -69,7 +70,7 @@ public class LikesView implements IStatisticView
 		// TRIAL FEATURE
 		Vector points = _analysis.getAlbumPlayCountVsRating();
 		//Vector points = _analysis.getAlbumPlayCountVsAge();
-		_dataset = new SimpleXYDataSet(points);
+		_dataset = new ColorSeriesXYDataSet(points);
 
 		createChart();
 		_chartPanel = new ChartPanel(_chart);
@@ -138,17 +139,22 @@ public class LikesView implements IStatisticView
 		XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
 		
 		renderer.setBaseToolTipGenerator(new ItemXYToolTipGenerator());
-
+		
 		renderer.setBaseShapesVisible(true);
 		renderer.setDrawOutlines(true);
 		renderer.setUseFillPaint(true);
 		renderer.setBaseFillPaint(Color.white);
-		renderer.setSeriesStroke(0, new BasicStroke(3.0f));
-		renderer.setSeriesOutlineStroke(0, new BasicStroke(2.0f));
-		renderer.setSeriesShape(0, new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
 
 		Misc.formatChart(plot);
-		renderer.setSeriesPaint(0, Theme.getColorSet()[1]);
+	
+		for(int i = 0; i<_dataset.getSeriesCount(); i++){
+			renderer.setSeriesPaint(i, ((ColorSeriesXYDataSet) _dataset).getColor(i));
+			renderer.setSeriesStroke(i, new BasicStroke(3.0f));
+			renderer.setSeriesOutlineStroke(i, new BasicStroke(2.0f));
+			renderer.setSeriesShape(i, new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
+		}
+		
+		//renderer.setSeriesPaint(0, Theme.getColorSet()[1]);
 
 	}
 
