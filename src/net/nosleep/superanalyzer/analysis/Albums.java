@@ -167,7 +167,7 @@ class Albums extends Hashtable
 				continue;
 
 			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, getColor(a.getGenre()), currentKey)); //dividing by two is easier than changing getAvgRating to double
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, getColor(a.getGenre()), currentKey, a.getGenre())); //dividing by two is easier than changing getAvgRating to double
 			
 		}
 
