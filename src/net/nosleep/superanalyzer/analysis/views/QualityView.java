@@ -176,7 +176,7 @@ public class QualityView implements IStatisticView
 			// if((Double)counts.elementAt(i) > 0)
 			{
 				_dataset.setValue((String) labels.elementAt(i), (Double) counts.elementAt(i));
-				plot.setSectionPaint((String) labels.elementAt(i), colors[5 - i]);
+				plot.setSectionPaint((String) labels.elementAt(i), colors[10 - 2*i]);
 			}
 
 		}
