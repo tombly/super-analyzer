@@ -53,7 +53,7 @@ import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
 import net.nosleep.superanalyzer.analysis.views.IStatisticView;
-import net.nosleep.superanalyzer.analysis.views.LikesView;
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -269,7 +269,7 @@ public class Share
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			LikesView likesView = new LikesView(analysis);
+			AlbumLikesView likesView = new AlbumLikesView(analysis);
 			likesView.saveImage(new File(tmpPath), d);
 			likesView = null;
 
@@ -672,7 +672,7 @@ public class Share
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			LikesView likesView = new LikesView(analysis);
+			AlbumLikesView likesView = new AlbumLikesView(analysis);
 			likesView.saveImage(new File(path + "likes.png"), d);
 			likesView = null;
 

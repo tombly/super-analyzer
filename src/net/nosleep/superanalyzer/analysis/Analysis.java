@@ -25,7 +25,7 @@ import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
 import net.nosleep.superanalyzer.analysis.views.IStatisticView;
-import net.nosleep.superanalyzer.analysis.views.LikesView;
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -202,8 +202,8 @@ public class Analysis
 			return new GenreView(this);
 		case GrowthView.Id:
 			return new GrowthView(this);
-		case LikesView.Id:
-			return new LikesView(this);
+		case AlbumLikesView.Id:
+			return new AlbumLikesView(this);
 		case PlayCountView.Id:
 			return new PlayCountView(this);
 		case QualityView.Id:

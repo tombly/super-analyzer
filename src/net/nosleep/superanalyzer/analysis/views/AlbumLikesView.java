@@ -48,7 +48,7 @@ import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.SimpleXYDataSet;
 import net.nosleep.superanalyzer.util.Theme;
 
-public class LikesView implements IStatisticView
+public class AlbumLikesView implements IStatisticView
 {
 
 	public static final int Id = 4;
@@ -58,7 +58,7 @@ public class LikesView implements IStatisticView
 	private ChartPanel _chartPanel;
 	private XYDataset _dataset;
 
-	public LikesView(Analysis analysis)
+	public AlbumLikesView(Analysis analysis)
 	{
 
 		_analysis = analysis;

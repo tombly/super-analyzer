@@ -34,7 +34,7 @@ import javax.swing.SwingConstants;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
-import net.nosleep.superanalyzer.analysis.views.LikesView;
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -110,7 +110,7 @@ public class ButtonPanel extends JPanel
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				homePanel.showView(LikesView.Id);
+				homePanel.showView(AlbumLikesView.Id);
 			}
 		});
 		toolBar.add(buttonLikes);
