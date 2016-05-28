@@ -156,12 +156,12 @@ public class EncodingKindView implements IStatisticView
 		{
 			String kindName = (String) e.nextElement();
 			Integer count = (Integer) kindHash.get(kindName);
-			// if (count.intValue() > 0) {
 			_dataset.setValue(kindName, new Double(count));
-			plot.setSectionPaint(kindName, colors[5 - ((i) % colors.length)]);	// mod it in case we don't have enough colors
-			i++;
+			plot.setSectionPaint(kindName, colors[10 - ((i) % colors.length)]);	// mod it in case we don't have enough colors
+			System.out.println(i);
+			i+=2;
 			if (i > colors.length)
-				i = 0;
+				i = (i % 2 == 0) ? 1 : 0 ; //if i was even continue with uneven numbers
 			// }
 		}
 
