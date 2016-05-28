@@ -122,7 +122,7 @@ public class Stat
 			
 			long diff = (now - day.getMiddleMillisecond())/1000;
 			
-			sum += (diff/(60*60*24));
+			sum += (diff/(60*60*24))*count;
 		}
 
 		return sum;
