@@ -99,7 +99,20 @@ public class WordCounterMemory
 			return true;
 		if (word.compareTo("version") == 0)
 			return true;
+		if (word.compareTo("album") == 0)
+			return true;
+		if (word.compareTo("acoustic") == 0)
+			return true;
+		if (word.compareTo("titel") == 0)
+			return true;
+		if (word.compareTo("allegro") == 0)
+			return true;
+		if (word.compareTo("edit") == 0)
+			return true;
+		if (word.compareTo("teil") == 0)
+			return true;
 
+		
 		return false;
 	}
 
