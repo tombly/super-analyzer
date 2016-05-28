@@ -28,6 +28,7 @@ class Artist implements StatHolder
 {
 
 	private Stat stats;
+	private String genre;
 
 	/**
 	 * A simple constructor to set our data members.
@@ -42,12 +43,17 @@ class Artist implements StatHolder
 	 */
 	public void analyze(Track track)
 	{
+		genre = track.getGenre();
 		stats.analyze(track);
 	}
 
 	public Stat getStats()
 	{
 		return stats;
+	}
+	
+	public String getGenre(){
+		return genre;
 	}
 
 }
