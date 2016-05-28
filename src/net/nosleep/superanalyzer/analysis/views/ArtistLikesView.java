@@ -89,12 +89,11 @@ public class ArtistLikesView implements IStatisticView
 
 	private void createChart()
 	{
-		//TODO: wrong strings
-		_chart = ChartFactory.createScatterPlot(Misc.getString("LIKES_VS_PLAYS"), Misc.getString("ALBUM_PLAY_COUNT"), Misc.getString("ALBUM_RATING"), _dataset,
+		_chart = ChartFactory.createScatterPlot(Misc.getString("LIKES_VS_PLAYS_ARTIST"), Misc.getString("ARTIST_PLAY_COUNT"), Misc.getString("ARTIST_RATING"), _dataset,
 				PlotOrientation.VERTICAL, false, true, false);
 
 		_chart.addSubtitle(HomePanel
-				.createSubtitle(Misc.getString("LIKES_VS_PLAYS_SUBTITLE")));
+				.createSubtitle(Misc.getString("LIKES_VS_PLAYS_ARTIST_SUBTITLE")));
 
 		XYPlot plot = (XYPlot) _chart.getPlot();
 
