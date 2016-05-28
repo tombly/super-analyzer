@@ -29,6 +29,16 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.util.Rotation;
+
 import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.analysis.Stat;
 import net.nosleep.superanalyzer.panels.HomePanel;
@@ -36,31 +46,12 @@ import net.nosleep.superanalyzer.util.ComboItem;
 import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.Theme;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer3D;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.data.xy.XYBarDataset;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.Rotation;
-
 public class RatingView implements IStatisticView
 {
 
 	public static final int Id = 7;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
@@ -80,7 +71,7 @@ public class RatingView implements IStatisticView
 	private void createPanel()
 	{
 
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)

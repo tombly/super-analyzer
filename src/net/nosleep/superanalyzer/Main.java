@@ -19,8 +19,6 @@
 
 package net.nosleep.superanalyzer;
 
-import java.util.Locale;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 

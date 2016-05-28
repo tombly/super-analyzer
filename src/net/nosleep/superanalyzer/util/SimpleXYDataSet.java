@@ -19,11 +19,10 @@
 
 package net.nosleep.superanalyzer.util;
 
-import java.util.*;
+import java.util.Vector;
 
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.xy.AbstractXYDataset;
-import org.jfree.data.xy.XYDataset;
 
 /**
  * A dummy dataset for an XY plot.

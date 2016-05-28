@@ -19,11 +19,11 @@
 
 package net.nosleep.superanalyzer.analysis;
 
-import java.awt.Color;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Vector;
 
 import net.nosleep.superanalyzer.util.DPoint;
-import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.StringInt;
 
 /**
@@ -56,7 +56,7 @@ class Artists extends Hashtable
 	@SuppressWarnings("rawtypes")
 	public Vector<DPoint> getArtistPlayCountVsRating(Vector<String> artistsList)
 	{
-		Vector<DPoint> points = new Vector(500);
+		Vector<DPoint> points = new Vector<DPoint>(500);
 				
 		for (Iterator<String> artistListIterator = artistsList.iterator(); artistListIterator.hasNext(); ) //iterates through the artists as determined by Analysis.java
 		{

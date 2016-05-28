@@ -20,9 +20,7 @@
 package net.nosleep.superanalyzer.analysis.views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
@@ -39,19 +37,17 @@ import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.analysis.Stat;
 import net.nosleep.superanalyzer.panels.HomePanel;
 import net.nosleep.superanalyzer.panels.TextPanel;
+import net.nosleep.superanalyzer.util.ComboItem;
 import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.Settings;
 import net.nosleep.superanalyzer.util.StringTriple;
 import net.nosleep.superanalyzer.util.Theme;
-
-import org.jfree.chart.JFreeChart;
 
 public class SummaryView implements IStatisticView
 {
 
 	public static final int Id = 8;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JPanel _gridPanel;
 	private Vector<StringTriple> _statPairs;

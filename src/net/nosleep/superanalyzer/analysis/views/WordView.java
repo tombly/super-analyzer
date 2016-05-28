@@ -29,12 +29,6 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import net.nosleep.superanalyzer.analysis.Analysis;
-import net.nosleep.superanalyzer.analysis.WordCounterMemory;
-import net.nosleep.superanalyzer.panels.HomePanel;
-import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.Theme;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -47,12 +41,19 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import net.nosleep.superanalyzer.analysis.Analysis;
+import net.nosleep.superanalyzer.analysis.WordCounterMemory;
+import net.nosleep.superanalyzer.panels.HomePanel;
+import net.nosleep.superanalyzer.util.ComboItem;
+import net.nosleep.superanalyzer.util.Misc;
+import net.nosleep.superanalyzer.util.Theme;
+
 public class WordView implements IStatisticView
 {
 
 	public static final int Id = 12;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
@@ -66,7 +67,7 @@ public class WordView implements IStatisticView
 
 	private void createPanel()
 	{
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)

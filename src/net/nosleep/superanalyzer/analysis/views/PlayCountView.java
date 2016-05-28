@@ -20,7 +20,6 @@
 package net.nosleep.superanalyzer.analysis.views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
@@ -33,13 +32,6 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import net.nosleep.superanalyzer.analysis.Analysis;
-import net.nosleep.superanalyzer.analysis.Stat;
-import net.nosleep.superanalyzer.panels.HomePanel;
-import net.nosleep.superanalyzer.util.ComboItem;
-import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.Theme;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -49,17 +41,23 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYBarPainter;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYBarDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import net.nosleep.superanalyzer.analysis.Analysis;
+import net.nosleep.superanalyzer.analysis.Stat;
+import net.nosleep.superanalyzer.panels.HomePanel;
+import net.nosleep.superanalyzer.util.ComboItem;
+import net.nosleep.superanalyzer.util.Misc;
+import net.nosleep.superanalyzer.util.Theme;
+
 public class PlayCountView implements IStatisticView
 {
 	public static final int Id = 5;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
@@ -74,7 +72,7 @@ public class PlayCountView implements IStatisticView
 
 	private void createPanel()
 	{
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)

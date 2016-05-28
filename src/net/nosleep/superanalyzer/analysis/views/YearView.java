@@ -62,7 +62,7 @@ public class YearView implements IStatisticView
 {
 	public static final int Id = 13;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
@@ -76,7 +76,7 @@ public class YearView implements IStatisticView
 
 	private void createPanel()
 	{
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -256,7 +256,7 @@ public class YearView implements IStatisticView
 
 		XYToolTipGenerator generator = new StandardXYToolTipGenerator("{2}", new DecimalFormat("0.00"),
 				new DecimalFormat("0.00"));
-		renderer.setToolTipGenerator(generator);
+		renderer.setBaseToolTipGenerator(generator);
 
 		ChartUtilities.applyCurrentTheme(_chart);
 

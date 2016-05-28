@@ -22,12 +22,8 @@ package net.nosleep.superanalyzer.panels;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 
 import javax.swing.JButton;
@@ -35,10 +31,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.Document;
 
 import net.nosleep.superanalyzer.HomeWindow;
-import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.util.Constants;
 import net.nosleep.superanalyzer.util.Misc;
 
