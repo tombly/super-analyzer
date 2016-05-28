@@ -29,6 +29,7 @@ import java.util.Vector;
 
 import javax.swing.JProgressBar;
 
+import net.nosleep.superanalyzer.analysis.views.AgePlaycountView;
 import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
@@ -234,6 +235,8 @@ public class Analysis
 			return new YearView(this);
 		case ArtistLikesView.Id:
 			return new ArtistLikesView(this);
+		case AgePlaycountView.Id:
+			return new AgePlaycountView(this);
 
 		default:
 			return null;
@@ -398,6 +401,10 @@ public class Analysis
 
 	public Vector getAlbumPlayCountVsAge()
 	{
+		if (Analysis.genreColors.isEmpty()){
+			getAlbumPlayCountVsRating(); //make sure the genre colors are the same no matter what chart is viewed first
+		}
+		
 		return albums.getAlbumPlayCountVsAge();
 	}
 

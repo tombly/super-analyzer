@@ -34,6 +34,7 @@ import javax.swing.SwingConstants;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
+import net.nosleep.superanalyzer.analysis.views.AgePlaycountView;
 import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
@@ -135,6 +136,16 @@ public class ButtonPanel extends JPanel
 			}
 		});
 		toolBar.add(buttonYear);
+		
+		JButton buttonAge = addButton("tab_year.png");
+		buttonAge.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				homePanel.showView(AgePlaycountView.Id);
+			}
+		});
+		toolBar.add(buttonAge);
 
 		JButton buttonRating = addButton("tab_rating.png");
 		buttonRating.addActionListener(new java.awt.event.ActionListener()
