@@ -19,8 +19,11 @@
 
 package net.nosleep.superanalyzer.analysis;
 
+import java.awt.Color;
 import java.util.*;
 
+import net.nosleep.superanalyzer.util.DPoint;
+import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.StringInt;
 
 /**
@@ -46,6 +49,33 @@ class Artists extends Hashtable
 		return _mostPlayed;
 	}
 
+	/**
+	 * Creates a set of data points where each data point represents the average
+	 * song play count and the average song rating for each artist.
+	 */
+	@SuppressWarnings("rawtypes")
+	public Vector<DPoint> getArtistPlayCountVsRating(Vector<String> artistsList)
+	{
+		Vector<DPoint> points = new Vector(500);
+				
+		for (Iterator<String> artistListIterator = artistsList.iterator(); artistListIterator.hasNext(); ) //iterates through the artists as determined by Analysis.java
+		{
+			String currentKey = (String) artistListIterator.next(); //the key is always the artist name as a String
+			Artist a = (Artist) (get(currentKey));
+			if (a == null){
+				System.out.println("Artist not found: " + currentKey);
+				continue;
+			}
+			Stat s = a.getStats();
+
+			if (s.getAvgPlayCount() < 0.2 || s.getTrackCount() < 3) //if the average play count is less than 0.2 or the artist has less than 3 tracks, it gets skipped
+				continue;
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, Analysis.getColor(a.getGenre()), currentKey, a.getGenre())); //dividing by two is easier than changing getAvgRating to double
+		}
+
+		return points;
+	}
+	
 	public void analyze(Track track)
 	{
 		// get the artist name
