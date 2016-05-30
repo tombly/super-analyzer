@@ -66,7 +66,7 @@ public class ArtistLikesView implements IStatisticView
 	private void createPanel()
 	{
 		// TRIAL FEATURE
-		Vector points = _analysis.getArtistPlayCountVsRating();
+		Vector points = _analysis.getArtistPlayCountVsRating(true);
 		//Vector points = _analysis.getAlbumPlayCountVsAge();
 		_dataset = new ColorSeriesXYDataSet(points);
 

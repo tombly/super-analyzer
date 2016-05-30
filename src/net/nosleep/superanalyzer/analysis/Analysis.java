@@ -381,13 +381,13 @@ public class Analysis
 		return albums.getAlbumPlayCountVsRating();
 	}
 	
-	public Vector<DPoint> getArtistPlayCountVsRating()
+	public Vector<DPoint> getArtistPlayCountVsRating(boolean splitByGenre)
 	{
 		if (Analysis.genreColors.isEmpty()){
 			getAlbumPlayCountVsRating(); //make sure the genre colors are the same no matter what chart is viewed first
 		}
 		
-		return artists.getArtistPlayCountVsRating();
+		return artists.getArtistPlayCountVsRating(splitByGenre);
 	}
 
 	public Vector getAlbumPlayCountVsAge()
