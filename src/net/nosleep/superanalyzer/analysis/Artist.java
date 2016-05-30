@@ -19,6 +19,9 @@
 
 package net.nosleep.superanalyzer.analysis;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 /**
  * This class is a holder for artist information. It includes a Stat object that
  * has statistics about an artist. It does _not_ store the name of the artist,
@@ -28,7 +31,7 @@ class Artist implements StatHolder
 {
 
 	private Stat stats;
-	private String genre;
+	private Hashtable<String, Stat> genres = new Hashtable<>(4); //stores a stat object for each genre of the artist
 
 	/**
 	 * A simple constructor to set our data members.
@@ -43,17 +46,47 @@ class Artist implements StatHolder
 	 */
 	public void analyze(Track track)
 	{
-		genre = track.getGenre();
+		String currentGenre = track.getGenre();
 		stats.analyze(track);
+
+		if ( ! (currentGenre == null || currentGenre.equals("")) ){
+			Stat s = genres.get(currentGenre);
+			if (s == null){
+				s = new Stat();
+				genres.put(currentGenre, s);
+			} 
+
+			s.analyze(track);
+		}
 	}
 
 	public Stat getStats()
 	{
 		return stats;
 	}
-	
+
 	public String getGenre(){
-		return genre;
+		String topGenre = "";
+		int topGenreTracks = -1;
+		for(Enumeration<String> keysEnum = genres.keys(); keysEnum.hasMoreElements();){
+			String currentGenre = keysEnum.nextElement();
+			Stat s = genres.get(currentGenre);
+			
+			if (s.getTrackCount() > topGenreTracks){
+				topGenre = currentGenre;
+				topGenreTracks = s.getTrackCount();
+			}
+		}
+		
+		return topGenre;
+	}
+	
+	public Hashtable<String, Stat> getGenres(){
+		return genres;
+	}
+	
+	public Stat getGenreStat(String genre){
+		return genres.get(genre);
 	}
 
 }
