@@ -384,19 +384,7 @@ public class Analysis
 			getAlbumPlayCountVsRating(); //make sure the genre colors are the same no matter what chart is viewed first
 		}
 		
-		Vector<String> artistList = new Vector<>(500);
-		Enumeration keysEnumeration =  albums.keys();
-		
-		String regex = Album.SeparatorRegEx;
-
-		while (keysEnumeration.hasMoreElements())
-		{
-			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album artist name as a String
-			String[] parts = currentKey.split(regex);
-			if (artistList.contains(parts[1]) == false)
-				artistList.add(parts[1]);
-		}
-		return artists.getArtistPlayCountVsRating(artistList);
+		return artists.getArtistPlayCountVsRating();
 	}
 
 	public Vector getAlbumPlayCountVsAge()

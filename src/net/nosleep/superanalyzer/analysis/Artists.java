@@ -54,13 +54,13 @@ class Artists extends Hashtable
 	 * song play count and the average song rating for each artist.
 	 */
 	@SuppressWarnings("rawtypes")
-	public Vector<DPoint> getArtistPlayCountVsRating(Vector<String> artistsList)
+	public Vector<DPoint> getArtistPlayCountVsRating()
 	{
 		Vector<DPoint> points = new Vector<DPoint>(500);
 				
-		for (Iterator<String> artistListIterator = artistsList.iterator(); artistListIterator.hasNext(); ) //iterates through the artists as determined by Analysis.java
+		for (Enumeration keysEnum = keys(); keysEnum.hasMoreElements(); ) //iterates through the artists as determined by Analysis.java
 		{
-			String currentKey = (String) artistListIterator.next(); //the key is always the artist name as a String
+			String currentKey = (String) keysEnum.nextElement(); //the key is always the artist name as a String
 			Artist a = (Artist) (get(currentKey));
 			if (a == null){
 				System.out.println("Artist not found: " + currentKey);
