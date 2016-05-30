@@ -32,6 +32,7 @@ import javax.swing.JProgressBar;
 import net.nosleep.superanalyzer.analysis.views.AgePlaycountView;
 import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
+import net.nosleep.superanalyzer.analysis.views.ArtistLikesView2;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
@@ -237,6 +238,8 @@ public class Analysis
 			return new ArtistLikesView(this);
 		case AgePlaycountView.Id:
 			return new AgePlaycountView(this);
+		case ArtistLikesView2.Id:
+			return new ArtistLikesView2(this);
 
 		default:
 			return null;
