@@ -27,7 +27,7 @@ import net.nosleep.superanalyzer.util.StringInt;
  * Describes a collection of genres. The keys are genre names and the values are
  * Genre objects.
  */
-class Genres extends Hashtable
+class Genres extends Hashtable<String, Genre>
 {
 
 	private static final long serialVersionUID = 1L;

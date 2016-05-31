@@ -32,12 +32,6 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
-import net.nosleep.superanalyzer.analysis.Analysis;
-import net.nosleep.superanalyzer.analysis.Genre;
-import net.nosleep.superanalyzer.panels.HomePanel;
-import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.Theme;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -49,6 +43,12 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import net.nosleep.superanalyzer.analysis.Analysis;
+import net.nosleep.superanalyzer.analysis.Genre;
+import net.nosleep.superanalyzer.panels.HomePanel;
+import net.nosleep.superanalyzer.util.Misc;
+import net.nosleep.superanalyzer.util.Theme;
 
 public class GenreView implements IStatisticView
 {
@@ -160,13 +160,13 @@ public class GenreView implements IStatisticView
 
 	private void refreshDataset()
 	{
-		Hashtable genres = _analysis.getHash(Analysis.KIND_GENRE);
+		Hashtable<String, ?> genres = _analysis.getHash(Analysis.KIND_GENRE);
 
-		Vector items = new Vector();
-		Enumeration e = genres.keys();
+		Vector<GenreItem> items = new Vector<GenreItem>();
+		Enumeration<String> e = genres.keys();
 		while (e.hasMoreElements())
 		{
-			String genreName = (String) e.nextElement();
+			String genreName = e.nextElement();
 			Genre genre = (Genre) genres.get(genreName);
 			items.add(new GenreItem(genreName, genre.getStats().getTrackCount()));
 		}

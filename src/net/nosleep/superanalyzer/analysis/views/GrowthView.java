@@ -150,7 +150,7 @@ public class GrowthView implements IStatisticView
 	{
 		TimeSeries series1 = new TimeSeries(Misc.getString("SONGS_IN_LIBRARY"));
 
-		Hashtable addedHash = null;
+		Hashtable<Day, Integer> addedHash = null;
 
 		if (_comboBox == null)
 		{
@@ -162,14 +162,14 @@ public class GrowthView implements IStatisticView
 			addedHash = _analysis.getDatesAdded(item.getKind(), item.getValue());
 		}
 
-		Vector items = new Vector();
+		Vector<GrowthItem> items = new Vector<GrowthItem>();
 
-		Enumeration e = addedHash.keys();
+		Enumeration<Day> e = addedHash.keys();
 		while (e.hasMoreElements())
 		{
 
-			Day day = (Day) e.nextElement();
-			Integer count = (Integer) addedHash.get(day);
+			Day day = e.nextElement();
+			Integer count = addedHash.get(day);
 
 			if (count.intValue() > 0)
 			{
@@ -217,6 +217,7 @@ public class GrowthView implements IStatisticView
 			return s1.Day.compareTo(s2.Day);
 		}
 
+		@SuppressWarnings("unused")
 		public boolean equals(Object o1, Object o2)
 		{
 			GrowthItem s1 = (GrowthItem) o1;

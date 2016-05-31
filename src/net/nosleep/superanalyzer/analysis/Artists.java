@@ -30,7 +30,8 @@ import net.nosleep.superanalyzer.util.StringInt;
  * Describes a collection of artists. The keys are artist names and the values
  * are Artist objects.
  */
-class Artists extends Hashtable
+@SuppressWarnings("serial")
+class Artists extends Hashtable<String, Artist>
 {
 
 	Vector<StringInt> _mostPlayed;

@@ -31,10 +31,11 @@ import org.jfree.data.xy.AbstractXYDataset;
  * demo purposes - it is NOT intended to show how you should go about writing
  * your own datasets.
  */
+@SuppressWarnings("serial")
 public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 {
 
-	Vector _points;
+	Vector<DPoint> _points;
 
 	/**
 	 * Use the translate to change the data and demonstrate dynamic data
@@ -45,7 +46,7 @@ public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 	/**
 	 * Default constructor.
 	 */
-	public SimpleXYDataSet(Vector points)
+	public SimpleXYDataSet(Vector<DPoint> points)
 	{
 		this.translate = 0.0;
 		_points = points;
@@ -134,7 +135,7 @@ public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 	 * 
 	 * @return The key for the series.
 	 */
-	public Comparable getSeriesKey(int series)
+	public Comparable<?> getSeriesKey(int series)
 	{
 		return "Likes vs. Plays";
 	}
@@ -153,7 +154,7 @@ public class SimpleXYDataSet extends AbstractXYDataset implements KeyXYDataset
 	}
 
 	@Override
-	public Comparable getItemKey(int series, int item) {
+	public Comparable<?> getItemKey(int series, int item) {
 		if (series != 0) return null;
 		return ((DPoint) _points.elementAt(item)).name; 
 	}

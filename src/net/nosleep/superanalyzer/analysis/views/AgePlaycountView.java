@@ -43,6 +43,7 @@ import org.jfree.data.xy.XYDataset;
 import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.panels.HomePanel;
 import net.nosleep.superanalyzer.util.ColorSeriesXYDataSet;
+import net.nosleep.superanalyzer.util.DPoint;
 import net.nosleep.superanalyzer.util.ItemXYToolTipGenerator;
 import net.nosleep.superanalyzer.util.Misc;
 
@@ -66,7 +67,7 @@ public class AgePlaycountView implements IStatisticView
 	private void createPanel()
 	{
 		// TRIAL FEATURE
-		Vector points = _analysis.getAlbumPlayCountVsAge();
+		Vector<DPoint> points = _analysis.getAlbumPlayCountVsAge();
 		_dataset = new ColorSeriesXYDataSet(points);
 
 		createChart();

@@ -165,14 +165,14 @@ public class YearView implements IStatisticView
 			itemStats = _analysis.getStats(item.getKind(), item.getValue());
 		}
 
-		Vector yearCountListHave = new Vector();
+		Vector<YearCountItem> yearCountListHave = new Vector<YearCountItem>();
 
-		Hashtable years = itemStats.getYears();
-		Enumeration e = years.keys();
+		Hashtable<Integer, Integer> years = itemStats.getYears();
+		Enumeration<Integer> e = years.keys();
 		while (e.hasMoreElements())
 		{
-			Integer year = (Integer) e.nextElement();
-			Integer count = (Integer) years.get(year);
+			Integer year = e.nextElement();
+			Integer count = years.get(year);
 			// if (count.intValue() > 0)
 			yearCountListHave.addElement(new YearCountItem(year.intValue(), count.intValue()));
 		}
@@ -185,9 +185,9 @@ public class YearView implements IStatisticView
 			t1.add(item.Year, new Integer(item.Count));
 		}
 
-		Vector yearCountListPlay = new Vector();
+		Vector<YearCountItem> yearCountListPlay = new Vector<YearCountItem>();
 
-		Hashtable yearPlays = itemStats.getPlayYears();
+		Hashtable<Integer, Integer> yearPlays = itemStats.getPlayYears();
 		e = yearPlays.keys();
 		while (e.hasMoreElements())
 		{

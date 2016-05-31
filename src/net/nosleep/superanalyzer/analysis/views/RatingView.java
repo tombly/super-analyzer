@@ -145,7 +145,7 @@ public class RatingView implements IStatisticView
 
 		Vector<String> labels = new Vector<String>(11);
 		labels.add(new String(Misc.getString("NOT_RATED")));
-		labels.add(new String("0.5 " + Misc.getString("STAR")));
+		labels.add(new String("0.5 " + Misc.getString("STARS")));
 		labels.add(new String("1 " + Misc.getString("STAR")));
 		labels.add(new String("1.5 " + Misc.getString("STAR")));
 		labels.add(new String("2 " + Misc.getString("STARS")));

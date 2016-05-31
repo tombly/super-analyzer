@@ -58,10 +58,10 @@ public class TagView implements IStatisticView
 		_gridPanel = new JPanel(new GridLayout(10, 2));
 		_gridPanel.setOpaque(false);
 
-		Vector tagPairs = _analysis.getTagCheck();
+		Vector<TagCheckItem> tagPairs = _analysis.getTagCheck();
 
 		for (int i = 0; i < tagPairs.size(); i++)
-			addTagPair(_gridPanel, (TagCheckItem) tagPairs.elementAt(i));
+			addTagPair(_gridPanel, tagPairs.elementAt(i));
 	}
 
 	private void addTagPair(JPanel panel, TagCheckItem pair)

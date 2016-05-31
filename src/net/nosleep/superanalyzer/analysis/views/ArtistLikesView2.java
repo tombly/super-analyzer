@@ -43,6 +43,7 @@ import org.jfree.data.xy.XYDataset;
 import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.panels.HomePanel;
 import net.nosleep.superanalyzer.util.ColorSeriesXYDataSet;
+import net.nosleep.superanalyzer.util.DPoint;
 import net.nosleep.superanalyzer.util.ItemXYToolTipGenerator;
 import net.nosleep.superanalyzer.util.Misc;
 
@@ -70,7 +71,7 @@ public class ArtistLikesView2 implements IStatisticView
 	private void createPanel()
 	{
 
-		Vector points = _analysis.getArtistPlayCountVsRating(false);
+		Vector<DPoint> points = _analysis.getArtistPlayCountVsRating(false);
 		_dataset = new ColorSeriesXYDataSet(points);
 
 		createChart();

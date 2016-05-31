@@ -8,6 +8,7 @@ import java.util.Vector;
  * (used for sorting by genre and then coloring the points in the graph accordingly, as JFreeGraph needs the points in different series to colorize them). 
  */
 
+@SuppressWarnings("serial")
 public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 
 	Vector<Vector<DPoint>> _points = new Vector<>();
@@ -95,7 +96,7 @@ public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 	 * 
 	 * @return The key for the series.
 	 */
-	public Comparable getSeriesKey(int series)
+	public Comparable<?> getSeriesKey(int series)
 	{
 		return _points.get(series).firstElement().secondName; //gets the genre for the first element in the series, assuming they are all of the same genre
 	}
@@ -114,7 +115,7 @@ public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 	}
 
 	@Override
-	public Comparable getItemKey(int series, int item) {
+	public Comparable<?> getItemKey(int series, int item) {
 		return ((DPoint) _points.get(series).elementAt(item)).name; 
 	}
 	

@@ -27,7 +27,8 @@ import net.nosleep.superanalyzer.util.StringInt;
  * Describes a collection of decades. The keys are decades names and the values
  * are Decade objects.
  */
-class Decades extends Hashtable
+@SuppressWarnings("serial")
+class Decades extends Hashtable<String, Decade>
 {
 
 	Vector<StringInt> _mostPlayed;

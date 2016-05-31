@@ -128,7 +128,7 @@ public class WordView implements IStatisticView
 	private void refreshDataset()
 	{
 		// get the most common wong words, up to 25 of them
-		Vector pairs = _analysis.getMostCommonWords();
+		Vector<?> pairs = _analysis.getMostCommonWords();
 
 		// Collections.sort(pairs, new CommonWordComparator());
 

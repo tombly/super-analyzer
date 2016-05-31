@@ -414,10 +414,10 @@ public class Share
 		if (file == null)
 			return;
 
-		Hashtable albums = analysis.getHash(Analysis.KIND_ALBUM);
+		Hashtable<String, ?> albums = analysis.getHash(Analysis.KIND_ALBUM);
 
 		Vector v = new Vector();
-		Enumeration keys = albums.elements();
+		Enumeration<?> keys = albums.elements();
 		Integer index = 0;
 		while (keys.hasMoreElements())
 		{

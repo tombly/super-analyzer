@@ -136,7 +136,7 @@ public class EncodingKindView implements IStatisticView
 		_dataset.clear();
 		// plot.clearSectionPaints(true);
 
-		Hashtable kindHash = null;
+		Hashtable<String, Integer> kindHash = null;
 
 		if (_comboBox == null)
 		{
@@ -150,12 +150,12 @@ public class EncodingKindView implements IStatisticView
 
 		Color[] colors = Theme.getColorSet();
 
-		Enumeration e = kindHash.keys();
+		Enumeration<String> e = kindHash.keys();
 		int i = 0;
 		while (e.hasMoreElements())
 		{
-			String kindName = (String) e.nextElement();
-			Integer count = (Integer) kindHash.get(kindName);
+			String kindName = e.nextElement();
+			Integer count = kindHash.get(kindName);
 			_dataset.setValue(kindName, new Double(count));
 			plot.setSectionPaint(kindName, colors[10 - ((i) % colors.length)]);	// mod it in case we don't have enough colors
 			System.out.println(i);

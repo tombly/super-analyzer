@@ -102,7 +102,7 @@ public class SummaryView implements IStatisticView
 		wordField.setToolTipText(Misc.getTooltip(triple.Info));
 	}
 
-	public static Vector createStatPairs(Analysis analysis)
+	public static Vector<StringTriple> createStatPairs(Analysis analysis)
 	{
 
 		Stat trackStats = analysis.getStats(Analysis.KIND_TRACK, null);
@@ -112,7 +112,7 @@ public class SummaryView implements IStatisticView
 		String description;
 		StringTriple triple;
 
-		Vector statPairs = new Vector();
+		Vector<StringTriple> statPairs = new Vector<StringTriple>();
 
 		name = Misc.getString("TRACK_COUNT");
 		value = Misc.getFormattedCountAsInt(trackStats.getTrackCount(), Misc.getString("TRACK"), Misc.getString("TRACKS"));
