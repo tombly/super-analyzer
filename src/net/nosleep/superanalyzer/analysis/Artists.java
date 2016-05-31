@@ -19,8 +19,8 @@
 
 package net.nosleep.superanalyzer.analysis;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Vector;
 
 import net.nosleep.superanalyzer.util.DPoint;

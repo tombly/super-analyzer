@@ -53,7 +53,7 @@ import net.nosleep.superanalyzer.util.Misc;
 public class ArtistLikesView2 implements IStatisticView
 {
 
-	public static final int Id = 16;
+	public static final int Id = 17;
 
 	private Analysis _analysis;
 	private JFreeChart _chart;
