@@ -40,20 +40,30 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.FontSelector;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+
 import net.nosleep.superanalyzer.analysis.Album;
 import net.nosleep.superanalyzer.analysis.Analysis;
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
 import net.nosleep.superanalyzer.analysis.views.IStatisticView;
-import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -70,22 +80,6 @@ import net.nosleep.superanalyzer.util.StringComparator;
 import net.nosleep.superanalyzer.util.StringPair;
 import net.nosleep.superanalyzer.util.StringPairComparator;
 import net.nosleep.superanalyzer.util.StringTriple;
-
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.FontSelector;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
 
 public class Share
 {
@@ -178,7 +172,8 @@ public class Share
 
 		Misc.printMemoryInfo("pdfstart");
 
-		DateFormat dateFormat = new SimpleDateFormat().getDateInstance(DateFormat.SHORT);
+		new SimpleDateFormat();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
 		String infoString = Misc.getString("CREATED_ON") + " " + dateFormat.format(Calendar.getInstance().getTime());
 
 		int viewCount = 15;
@@ -535,7 +530,8 @@ public class Share
 			infoString += Misc.getString("ALBUM") + ", ";
 		else
 			infoString += Misc.getString("ALBUMS") + ", ";
-		DateFormat dateFormat = new SimpleDateFormat().getDateInstance(DateFormat.SHORT);
+		new SimpleDateFormat();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
 		infoString += "created on " + dateFormat.format(Calendar.getInstance().getTime());
 
 		try
@@ -632,7 +628,8 @@ public class Share
 
 		Misc.printMemoryInfo("htmlstart");
 
-		DateFormat dateFormat = new SimpleDateFormat().getDateInstance(DateFormat.SHORT);
+		new SimpleDateFormat();
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
 		String infoString = "created on " + dateFormat.format(Calendar.getInstance().getTime());
 
 		int viewCount = 15;

@@ -19,8 +19,10 @@
 
 package net.nosleep.superanalyzer.analysis;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Vector;
 
 import net.nosleep.superanalyzer.util.Constants;
 import net.nosleep.superanalyzer.util.DPoint;
@@ -152,7 +154,7 @@ class Albums extends Hashtable
 	@SuppressWarnings("rawtypes")
 	public Vector getAlbumPlayCountVsRating()
 	{
-		Vector<DPoint> points = new Vector(1000);
+		Vector<DPoint> points = new Vector<DPoint>(1000);
 
 		Enumeration keysEnumeration = keys();
 		while (keysEnumeration.hasMoreElements())
@@ -174,7 +176,7 @@ class Albums extends Hashtable
 
 	public Vector getAlbumPlayCountVsAge()
 	{
-		Vector<DPoint> points = new Vector(1000);
+		Vector<DPoint> points = new Vector<DPoint>(1000);
 
 		Enumeration keysEnumeration = keys();
 		while (keysEnumeration.hasMoreElements())

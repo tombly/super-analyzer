@@ -56,7 +56,7 @@ public class TimeView implements IStatisticView
 {
 	public static final int Id = 10;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
@@ -70,7 +70,7 @@ public class TimeView implements IStatisticView
 
 	private void createPanel()
 	{
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)

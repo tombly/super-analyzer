@@ -88,7 +88,7 @@ public class Analysis
 	private Decades decades;
 	private Tracks tracks;
 
-	private Vector _comboBoxItems;
+	private Vector<ComboItem> _comboBoxItems;
 	
 	private static Hashtable<String, Color> genreColors = new Hashtable<>(15);
 
@@ -140,7 +140,7 @@ public class Analysis
 	 */
 	private void createComboBoxItems()
 	{
-		_comboBoxItems = new Vector();
+		_comboBoxItems = new Vector<ComboItem>();
 
 		ComboItem comboItem = new ComboItem(Misc.getString("SHOW_ALL"), Analysis.KIND_TRACK);
 		_comboBoxItems.addElement(comboItem);
@@ -240,7 +240,7 @@ public class Analysis
 		}
 	}
 
-	public Vector getComboBoxItems()
+	public Vector<ComboItem> getComboBoxItems()
 	{
 		return _comboBoxItems;
 	}
@@ -385,7 +385,7 @@ public class Analysis
 		Enumeration keysEnumeration =  albums.keys();
 		
 		String regex = Album.SeparatorRegEx;
-		//TODO: wrong colors
+
 		while (keysEnumeration.hasMoreElements())
 		{
 			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album artist name as a String

@@ -19,9 +19,10 @@
 
 package net.nosleep.superanalyzer.analysis;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import org.jfree.data.time.Day;
 

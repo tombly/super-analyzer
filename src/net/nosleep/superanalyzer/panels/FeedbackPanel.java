@@ -30,18 +30,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import net.nosleep.superanalyzer.HomeWindow;
-import net.nosleep.superanalyzer.analysis.views.SummaryView;
 import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.Theme;
 

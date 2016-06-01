@@ -20,28 +20,19 @@
 package net.nosleep.superanalyzer.analysis.views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-
-import net.nosleep.superanalyzer.analysis.Analysis;
-import net.nosleep.superanalyzer.panels.HomePanel;
-import net.nosleep.superanalyzer.util.ComboItem;
-import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.Theme;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -53,17 +44,22 @@ import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
+
+import net.nosleep.superanalyzer.analysis.Analysis;
+import net.nosleep.superanalyzer.panels.HomePanel;
+import net.nosleep.superanalyzer.util.ComboItem;
+import net.nosleep.superanalyzer.util.Misc;
+import net.nosleep.superanalyzer.util.Theme;
 
 public class GrowthView implements IStatisticView
 {
 
 	public static final int Id = 3;
 
-	private JComboBox _comboBox;
+	private JComboBox<ComboItem> _comboBox;
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
@@ -79,7 +75,7 @@ public class GrowthView implements IStatisticView
 	private void createPanel()
 	{
 
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -96,7 +92,7 @@ public class GrowthView implements IStatisticView
 
 		refreshDataset();
 
-		_comboBox = new JComboBox(_analysis.getComboBoxItems());
+		_comboBox = new JComboBox<ComboItem>(_analysis.getComboBoxItems());
 		_comboBox.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)

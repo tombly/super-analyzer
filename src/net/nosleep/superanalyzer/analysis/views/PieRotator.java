@@ -40,11 +40,11 @@ public class PieRotator extends Timer implements ActionListener
 	 */
 	public void actionPerformed(ActionEvent event)
 	{
-		this.plot.setStartAngle(this.angle);
-		this.angle = this.angle + 0.00;
-		if (this.angle >= 360.0)
+		this.plot.setStartAngle(PieRotator.angle);
+		PieRotator.angle = PieRotator.angle + 0.00;
+		if (PieRotator.angle >= 360.0)
 		{
-			this.angle = 0.0;
+			PieRotator.angle = 0.0;
 		}
 	}
 }

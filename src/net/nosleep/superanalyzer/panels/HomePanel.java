@@ -34,6 +34,12 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 
+import org.jfree.chart.title.TextTitle;
+import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.VerticalAlignment;
+import org.jfree.util.UnitType;
+
 import net.nosleep.superanalyzer.HomeWindow;
 import net.nosleep.superanalyzer.Share;
 import net.nosleep.superanalyzer.analysis.Analysis;
@@ -41,14 +47,8 @@ import net.nosleep.superanalyzer.analysis.views.IStatisticView;
 import net.nosleep.superanalyzer.analysis.views.PieRotator;
 import net.nosleep.superanalyzer.analysis.views.SummaryView;
 import net.nosleep.superanalyzer.analysis.views.TagView;
+import net.nosleep.superanalyzer.util.ComboItem;
 import net.nosleep.superanalyzer.util.Misc;
-
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.chart.title.TextTitle;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.VerticalAlignment;
-import org.jfree.util.UnitType;
 
 public class HomePanel extends JPanel
 {
@@ -129,7 +129,7 @@ public class HomePanel extends JPanel
 		_containerPanel.updateUI();
 	}
 
-	public JPanel createHeaderPanel(JComboBox comboBox, boolean showTagWarning)
+	public JPanel createHeaderPanel(JComboBox<ComboItem> comboBox, boolean showTagWarning)
 	{
 
 		JPanel panel = new JPanel(new BorderLayout());

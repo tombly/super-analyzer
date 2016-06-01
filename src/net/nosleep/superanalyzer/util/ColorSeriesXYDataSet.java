@@ -1,11 +1,11 @@
 package net.nosleep.superanalyzer.util;
 
 import java.awt.Color;
-import java.util.Hashtable;
 import java.util.Vector;
 
 /**
  * Similar to {@link SimpleXYDataSet}, but requires DPoint's as parameter, which it then sorts into colored series
+ * (used for sorting by genre and then coloring the points in the graph accordingly, as JFreeGraph needs the points in different series to colorize them). 
  */
 
 public class ColorSeriesXYDataSet extends SimpleXYDataSet {
@@ -23,7 +23,7 @@ public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 		for (int i = 0; i < tempPoints.size(); i++)
 		{
 			d = tempPoints.get(i);
-			if (colors.contains(d.color)) //do we now this color?
+			if (colors.contains(d.color)) //do we know this color?
 			{
 				_points.get(colors.indexOf(d.color)).add(d); //add d at the position of the color in the colors-Vector
 			}

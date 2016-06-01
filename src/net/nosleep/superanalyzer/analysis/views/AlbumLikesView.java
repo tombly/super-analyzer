@@ -45,8 +45,6 @@ import net.nosleep.superanalyzer.panels.HomePanel;
 import net.nosleep.superanalyzer.util.ColorSeriesXYDataSet;
 import net.nosleep.superanalyzer.util.ItemXYToolTipGenerator;
 import net.nosleep.superanalyzer.util.Misc;
-import net.nosleep.superanalyzer.util.SimpleXYDataSet;
-import net.nosleep.superanalyzer.util.Theme;
 
 public class AlbumLikesView implements IStatisticView
 {
