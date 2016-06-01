@@ -19,13 +19,22 @@
 
 package net.nosleep.superanalyzer.analysis;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Vector;
 
+import javax.swing.JProgressBar;
+
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
+import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
 import net.nosleep.superanalyzer.analysis.views.IStatisticView;
-import net.nosleep.superanalyzer.analysis.views.LikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -34,16 +43,13 @@ import net.nosleep.superanalyzer.analysis.views.RatingView;
 import net.nosleep.superanalyzer.analysis.views.SummaryView;
 import net.nosleep.superanalyzer.analysis.views.TagView;
 import net.nosleep.superanalyzer.analysis.views.TimeView;
-
 import net.nosleep.superanalyzer.analysis.views.WordView;
 import net.nosleep.superanalyzer.analysis.views.YearView;
 import net.nosleep.superanalyzer.util.ComboItem;
+import net.nosleep.superanalyzer.util.DPoint;
 import net.nosleep.superanalyzer.util.Misc;
 import net.nosleep.superanalyzer.util.StringComparator;
 import net.nosleep.superanalyzer.util.StringInt;
-
-import java.io.File;
-import java.util.*;
 
 /**
  * This is the core of the application. When the user tells the UI object to
@@ -83,6 +89,8 @@ public class Analysis
 	private Tracks tracks;
 
 	private Vector _comboBoxItems;
+	
+	private static Hashtable<String, Color> genreColors = new Hashtable<>(15);
 
 	/**
 	 * Just sets some data members for use in the analyze() method.
@@ -202,8 +210,8 @@ public class Analysis
 			return new GenreView(this);
 		case GrowthView.Id:
 			return new GrowthView(this);
-		case LikesView.Id:
-			return new LikesView(this);
+		case AlbumLikesView.Id:
+			return new AlbumLikesView(this);
 		case PlayCountView.Id:
 			return new PlayCountView(this);
 		case QualityView.Id:
@@ -224,6 +232,8 @@ public class Analysis
 			return new WordView(this);
 		case YearView.Id:
 			return new YearView(this);
+		case ArtistLikesView.Id:
+			return new ArtistLikesView(this);
 
 		default:
 			return null;
@@ -251,10 +261,139 @@ public class Analysis
 		Stat stats = getStats(kind, name);
 		return stats.getDatesAdded();
 	}
+	
+	/**
+	 * Returns a new color for a data point (which means string which is the genre)
+	 */
+	public static Color getColor(String genre)
+	{
+		Color color = null;
 
+		if (genre == null)
+			return Color.black;
+
+		color = genreColors.get(genre);
+		if (color == null)
+		{
+			// it's not in there, so get a new color and add it
+			color = getNextColor(genreColors.size());
+			genreColors.put(genre, color);
+		}
+
+		return color;
+	}
+
+	/**
+	 * Returns a new color. Colors are meant to be as different from each other
+	 * as possible.
+	 */
+	private static Color getNextColor(int i)
+	{
+		switch (i)
+		{
+		case 0:
+			return new Color(255, 0, 0);
+		case 1:
+			return new Color(0, 255, 0);
+		case 2:
+			return new Color(0, 0, 255);
+		case 3:
+			return new Color(255, 255, 0);
+		case 4:
+			return new Color(255, 0, 255);
+		case 5:
+			return new Color(0, 255, 255);
+		case 6:
+			return new Color(155, 0, 0);
+		case 7:
+			return new Color(0, 155, 0);
+		case 8:
+			return new Color(0, 0, 155);
+		case 9:
+			return new Color(155, 155, 0);
+		case 10:
+			return new Color(155, 0, 155);
+		case 11:
+			return new Color(0, 155, 155);
+		case 12:
+			return new Color(255, 155, 0);
+		case 13:
+			return new Color(155, 255, 0);
+		case 14:
+			return new Color(255, 0, 155);
+		case 15:
+			return new Color(155, 0, 255);
+		case 16:
+			return new Color(0, 155, 255);
+		case 17:
+			return new Color(0, 255, 155);
+		case 18:
+			return new Color(255, 127, 127);
+		case 19:
+			return new Color(127, 255, 127);
+		case 20:
+			return new Color(127, 127, 255);
+		case 21:
+			return new Color(255, 255, 127);
+		case 22:
+			return new Color(255, 127, 255);
+		case 23:
+			return new Color(127, 255, 255);
+		case 24:
+			return new Color(155, 127, 127);
+		case 25:
+			return new Color(127, 155, 127);
+		case 26:
+			return new Color(127, 127, 155);
+		case 27:
+			return new Color(155, 155, 127);
+		case 28:
+			return new Color(155, 127, 155);
+		case 29:
+			return new Color(127, 155, 155);
+		case 30:
+			return new Color(255, 155, 127);
+		case 31:
+			return new Color(155, 255, 127);
+		case 32:
+			return new Color(255, 127, 155);
+		case 33:
+			return new Color(155, 127, 255);
+		case 34:
+			return new Color(127, 155, 255);
+		case 35:
+			return new Color(127, 255, 155);
+		}
+
+		return Color.black;
+	}
+	
+	
+	
 	public Vector getAlbumPlayCountVsRating()
 	{
 		return albums.getAlbumPlayCountVsRating();
+	}
+	
+	public Vector<DPoint> getArtistPlayCountVsRating()
+	{
+		if (Analysis.genreColors.isEmpty()){
+			getAlbumPlayCountVsRating(); //make sure the genre colors are the same no matter what chart is viewed first
+		}
+		
+		Vector<String> artistList = new Vector<>(500);
+		Enumeration keysEnumeration =  albums.keys();
+		
+		String regex = Album.SeparatorRegEx;
+		//TODO: wrong colors
+		while (keysEnumeration.hasMoreElements())
+		{
+			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album artist name as a String
+			String[] parts = currentKey.split(regex);
+			if (artistList.contains(parts[1]) == false)
+				artistList.add(parts[1]);
+		}
+		return artists.getArtistPlayCountVsRating(artistList);
 	}
 
 	public Vector getAlbumPlayCountVsAge()
@@ -312,6 +451,11 @@ public class Analysis
 		return tracks.getTagCheck().getPairs();
 	}
 
+	/**
+	 * 
+	 * @param the kind as specified with the constants
+	 * @return the hashtable of this type
+	 */
 	public Hashtable getHash(int kind)
 	{
 		switch (kind)

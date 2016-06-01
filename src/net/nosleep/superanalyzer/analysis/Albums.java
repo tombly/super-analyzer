@@ -34,7 +34,6 @@ import net.nosleep.superanalyzer.util.StringInt;
 class Albums extends Hashtable
 {
 
-	private Hashtable genreColors;
 	Vector<StringInt> _mostPlayed;
 
 	public void finish()
@@ -154,7 +153,6 @@ class Albums extends Hashtable
 	public Vector getAlbumPlayCountVsRating()
 	{
 		Vector<DPoint> points = new Vector(1000);
-		genreColors = new Hashtable(10);
 
 		Enumeration keysEnumeration = keys();
 		while (keysEnumeration.hasMoreElements())
@@ -167,7 +165,7 @@ class Albums extends Hashtable
 				continue;
 
 			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, getColor(a.getGenre()), currentKey, a.getGenre())); //dividing by two is easier than changing getAvgRating to double
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, Analysis.getColor(a.getGenre()), currentKey, a.getGenre())); //dividing by two is easier than changing getAvgRating to double
 			
 		}
 
@@ -177,7 +175,6 @@ class Albums extends Hashtable
 	public Vector getAlbumPlayCountVsAge()
 	{
 		Vector<DPoint> points = new Vector(1000);
-		genreColors = new Hashtable(10);
 
 		Enumeration keysEnumeration = keys();
 		while (keysEnumeration.hasMoreElements())
@@ -190,116 +187,10 @@ class Albums extends Hashtable
 			// continue;
 
 			currentKey = currentKey.replace(Album.Separator, " " + Misc.getString("BY") + " "); //replace internal album separator by a readable separator
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgAge(), getColor(a.getGenre()), currentKey));
+			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgAge(), Analysis.getColor(a.getGenre()), currentKey, a.getGenre()));
 		}
 
 		return points;
-	}
-
-	/**
-	 * Returns a new color for a data point.
-	 */
-	private Color getColor(String genre)
-	{
-		Color color = null;
-
-		if (genre == null)
-			return Color.black;
-
-		color = (Color) genreColors.get(genre);
-		if (color == null)
-		{
-			// it's not in there, so get a new color and add it
-			color = getNextColor(genreColors.size());
-			genreColors.put(genre, color);
-		}
-
-		return color;
-	}
-
-	/**
-	 * Returns a new color. Colors are meant to be as different from each other
-	 * as possible.
-	 */
-	private Color getNextColor(int i)
-	{
-		switch (i)
-		{
-		case 0:
-			return new Color(255, 0, 0);
-		case 1:
-			return new Color(0, 255, 0);
-		case 2:
-			return new Color(0, 0, 255);
-		case 3:
-			return new Color(255, 255, 0);
-		case 4:
-			return new Color(255, 0, 255);
-		case 5:
-			return new Color(0, 255, 255);
-		case 6:
-			return new Color(155, 0, 0);
-		case 7:
-			return new Color(0, 155, 0);
-		case 8:
-			return new Color(0, 0, 155);
-		case 9:
-			return new Color(155, 155, 0);
-		case 10:
-			return new Color(155, 0, 155);
-		case 11:
-			return new Color(0, 155, 155);
-		case 12:
-			return new Color(255, 155, 0);
-		case 13:
-			return new Color(155, 255, 0);
-		case 14:
-			return new Color(255, 0, 155);
-		case 15:
-			return new Color(155, 0, 255);
-		case 16:
-			return new Color(0, 155, 255);
-		case 17:
-			return new Color(0, 255, 155);
-		case 18:
-			return new Color(255, 127, 127);
-		case 19:
-			return new Color(127, 255, 127);
-		case 20:
-			return new Color(127, 127, 255);
-		case 21:
-			return new Color(255, 255, 127);
-		case 22:
-			return new Color(255, 127, 255);
-		case 23:
-			return new Color(127, 255, 255);
-		case 24:
-			return new Color(155, 127, 127);
-		case 25:
-			return new Color(127, 155, 127);
-		case 26:
-			return new Color(127, 127, 155);
-		case 27:
-			return new Color(155, 155, 127);
-		case 28:
-			return new Color(155, 127, 155);
-		case 29:
-			return new Color(127, 155, 155);
-		case 30:
-			return new Color(255, 155, 127);
-		case 31:
-			return new Color(155, 255, 127);
-		case 32:
-			return new Color(255, 127, 155);
-		case 33:
-			return new Color(155, 127, 255);
-		case 34:
-			return new Color(127, 155, 255);
-		case 35:
-			return new Color(127, 255, 155);
-		}
-
-		return Color.black;
 	}
 
 	/**

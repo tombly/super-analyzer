@@ -34,7 +34,8 @@ import javax.swing.SwingConstants;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
-import net.nosleep.superanalyzer.analysis.views.LikesView;
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
+import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -105,15 +106,25 @@ public class ButtonPanel extends JPanel
 		});
 		toolBar.add(buttonGenres);
 
-		JButton buttonLikes = addButton("tab_like.png");
-		buttonLikes.addActionListener(new java.awt.event.ActionListener()
+		JButton buttonAlbumLikes = addButton("tab_like.png");
+		buttonAlbumLikes.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				homePanel.showView(LikesView.Id);
+				homePanel.showView(AlbumLikesView.Id);
 			}
 		});
-		toolBar.add(buttonLikes);
+		toolBar.add(buttonAlbumLikes);
+		
+		JButton buttonArtistLikes = addButton("tab_like.png");
+		buttonArtistLikes.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				homePanel.showView(ArtistLikesView.Id);
+			}
+		});
+		toolBar.add(buttonArtistLikes);
 
 		JButton buttonYear = addButton("tab_year.png");
 		buttonYear.addActionListener(new java.awt.event.ActionListener()
