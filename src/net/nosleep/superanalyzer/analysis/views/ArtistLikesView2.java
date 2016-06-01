@@ -46,17 +46,21 @@ import net.nosleep.superanalyzer.util.ColorSeriesXYDataSet;
 import net.nosleep.superanalyzer.util.ItemXYToolTipGenerator;
 import net.nosleep.superanalyzer.util.Misc;
 
-public class ArtistLikesView implements IStatisticView
+/** Pretty much like ArtistLikesView, but this time not split up by genre
+ *
+ */
+
+public class ArtistLikesView2 implements IStatisticView
 {
 
-	public static final int Id = 15;
+	public static final int Id = 17;
 
 	private Analysis _analysis;
 	private JFreeChart _chart;
 	private ChartPanel _chartPanel;
 	private XYDataset _dataset;
 
-	public ArtistLikesView(Analysis analysis)
+	public ArtistLikesView2(Analysis analysis)
 	{
 
 		_analysis = analysis;
@@ -65,9 +69,8 @@ public class ArtistLikesView implements IStatisticView
 
 	private void createPanel()
 	{
-		// TRIAL FEATURE
-		Vector points = _analysis.getArtistPlayCountVsRating(true);
-		//Vector points = _analysis.getAlbumPlayCountVsAge();
+
+		Vector points = _analysis.getArtistPlayCountVsRating(false);
 		_dataset = new ColorSeriesXYDataSet(points);
 
 		createChart();
@@ -89,11 +92,11 @@ public class ArtistLikesView implements IStatisticView
 
 	private void createChart()
 	{
-		_chart = ChartFactory.createScatterPlot(Misc.getString("LIKES_VS_PLAYS_ARTIST"), Misc.getString("ARTIST_PLAY_COUNT"), Misc.getString("ARTIST_RATING"), _dataset,
+		_chart = ChartFactory.createScatterPlot(Misc.getString("LIKES_VS_PLAYS_ARTIST_2"), Misc.getString("ARTIST_PLAY_COUNT"), Misc.getString("ARTIST_RATING"), _dataset,
 				PlotOrientation.VERTICAL, false, true, false);
 
 		_chart.addSubtitle(HomePanel
-				.createSubtitle(Misc.getString("LIKES_VS_PLAYS_ARTIST_SUBTITLE")));
+				.createSubtitle(Misc.getString("LIKES_VS_PLAYS_ARTIST_SUBTITLE_2")));
 
 		XYPlot plot = (XYPlot) _chart.getPlot();
 

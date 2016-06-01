@@ -31,12 +31,13 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
+import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
+import net.nosleep.superanalyzer.analysis.views.ArtistLikesView2;
 import net.nosleep.superanalyzer.analysis.views.EncodingKindView;
 import net.nosleep.superanalyzer.analysis.views.GenreView;
 import net.nosleep.superanalyzer.analysis.views.GrowthView;
 import net.nosleep.superanalyzer.analysis.views.AgePlaycountView;
-import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
-import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedAAView;
 import net.nosleep.superanalyzer.analysis.views.MostPlayedDGView;
 import net.nosleep.superanalyzer.analysis.views.PlayCountView;
@@ -126,6 +127,16 @@ public class ButtonPanel extends JPanel
 			}
 		});
 		toolBar.add(buttonArtistLikes);
+		
+		JButton buttonArtistLikes2 = addButton("tab_like.png");
+		buttonArtistLikes2.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				homePanel.showView(ArtistLikesView2.Id);
+			}
+		});
+		toolBar.add(buttonArtistLikes2);
 
 		JButton buttonYear = addButton("tab_year.png");
 		buttonYear.addActionListener(new java.awt.event.ActionListener()

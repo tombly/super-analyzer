@@ -19,8 +19,8 @@
 
 package net.nosleep.superanalyzer.analysis;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Vector;
 
 import net.nosleep.superanalyzer.util.DPoint;
@@ -54,23 +54,39 @@ class Artists extends Hashtable
 	 * song play count and the average song rating for each artist.
 	 */
 	@SuppressWarnings("rawtypes")
-	public Vector<DPoint> getArtistPlayCountVsRating(Vector<String> artistsList)
+	public Vector<DPoint> getArtistPlayCountVsRating(boolean splitByGenre)
 	{
 		Vector<DPoint> points = new Vector<DPoint>(500);
 				
-		for (Iterator<String> artistListIterator = artistsList.iterator(); artistListIterator.hasNext(); ) //iterates through the artists as determined by Analysis.java
+		for (Enumeration artistKeysEnum = keys(); artistKeysEnum.hasMoreElements(); ) //iterates through the artists as determined by Analysis.java
 		{
-			String currentKey = (String) artistListIterator.next(); //the key is always the artist name as a String
+			String currentKey = (String) artistKeysEnum.nextElement(); //the key is always the artist name as a String
 			Artist a = (Artist) (get(currentKey));
 			if (a == null){
 				System.out.println("Artist not found: " + currentKey);
 				continue;
 			}
-			Stat s = a.getStats();
+			
+			if (splitByGenre) { //determines whether the artist get split up by genre
+				for (Enumeration<String> genreKeysEnum = a.getGenres().keys(); genreKeysEnum.hasMoreElements();) {
+					String currentGenre = genreKeysEnum.nextElement();
+					Stat s = a.getGenreStat(currentGenre);
+					if (s.getAvgPlayCount() < 0.2 || s.getTrackCount() < 3) //if the average play count is less than 0.2 or the artist has less than 3 tracks, it gets skipped
+						continue;
+					points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating() / 2, Analysis.getColor(currentGenre),
+							currentKey, currentGenre)); //dividing by two is easier than changing getAvgRating to double
+				} 
+			} else {
+				Stat s = a.getStats();
 
-			if (s.getAvgPlayCount() < 0.2 || s.getTrackCount() < 3) //if the average play count is less than 0.2 or the artist has less than 3 tracks, it gets skipped
-				continue;
-			points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, Analysis.getColor(a.getGenre()), currentKey, a.getGenre())); //dividing by two is easier than changing getAvgRating to double
+				if (s.getAvgPlayCount() < 0.2 || s.getTrackCount() < 3) //if the average play count is less than 0.2 or the artist has less than 3 tracks, it gets skipped
+					continue;
+				points.add(new DPoint(s.getAvgPlayCount(), s.getAvgRating()/2, Analysis.getColor(a.getGenre()), currentKey, a.getGenre())); //dividing by two is easier than changing getAvgRating to double
+			}
+			
+			
+
+			
 		}
 
 		return points;
