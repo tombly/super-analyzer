@@ -24,15 +24,17 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
 
+import net.nosleep.superanalyzer.analysis.WordCounterMemory.CommonWord;
+
 public class WordCounterMemory
 {
 
-	private Hashtable words;
-	private Vector mostCommonWords;
+	private Hashtable<String, Integer> words;
+	private Vector<CommonWord> mostCommonWords;
 
 	public WordCounterMemory()
 	{
-		words = new Hashtable();
+		words = new Hashtable<String, Integer>();
 	}
 
 	public void checkWords(Track track)
@@ -57,7 +59,7 @@ public class WordCounterMemory
 				continue;
 
 			// now see if the word is already in the hash
-			Integer count = (Integer) words.get(tok);
+			Integer count = words.get(tok);
 
 			// if it's null, then we need to add it
 			if (count == null)
@@ -97,7 +99,20 @@ public class WordCounterMemory
 			return true;
 		if (word.compareTo("version") == 0)
 			return true;
+		if (word.compareTo("album") == 0)
+			return true;
+		if (word.compareTo("acoustic") == 0)
+			return true;
+		if (word.compareTo("titel") == 0)
+			return true;
+		if (word.compareTo("allegro") == 0)
+			return true;
+		if (word.compareTo("edit") == 0)
+			return true;
+		if (word.compareTo("teil") == 0)
+			return true;
 
+		
 		return false;
 	}
 
