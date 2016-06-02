@@ -53,11 +53,11 @@ public class Stat
 	private int[] hours;
 	private double[] ratings;
 	private int[] bitRate;
-	private Hashtable trackYear;
-	private Hashtable playYear;
-	private Hashtable playCounts;
-	private Hashtable encodingKind;
-	private Hashtable datesAdded;
+	private Hashtable<Integer, Integer> trackYear;
+	private Hashtable<Integer, Integer> playYear;
+	private Hashtable<Integer, Integer> playCounts;
+	private Hashtable<String, Integer> encodingKind;
+	private Hashtable<Day, Integer> datesAdded;
 
 	// we can't count words for each album/artist/decade, since there would
 	// be too many
@@ -85,12 +85,12 @@ public class Stat
 		hours = new int[24];
 		ratings = new double[11];
 		bitRate = new int[5];
-		trackYear = new Hashtable();
-		playYear = new Hashtable();
+		trackYear = new Hashtable<Integer, Integer>();
+		playYear = new Hashtable<Integer, Integer>();
 
-		playCounts = new Hashtable();
-		encodingKind = new Hashtable();
-		datesAdded = new Hashtable();
+		playCounts = new Hashtable<Integer, Integer>();
+		encodingKind = new Hashtable<String, Integer>();
+		datesAdded = new Hashtable<Day, Integer>();
 
 		// wordCounter = new WordCounter();
 	}
@@ -112,11 +112,11 @@ public class Stat
 	{
 		int sum = 0;
 
-		Enumeration days = datesAdded.keys();
+		Enumeration<Day> days = datesAdded.keys();
 		while(days.hasMoreElements() == true)
 		{
-			Day day = (Day)days.nextElement();
-			Integer count = (Integer)datesAdded.get(day);
+			Day day = days.nextElement();
+			Integer count = datesAdded.get(day);
 		
 			long now = System.currentTimeMillis();
 			
@@ -313,12 +313,12 @@ public class Stat
 		return playCountSum;
 	}
 
-	public Hashtable getYears()
+	public Hashtable<Integer, Integer> getYears()
 	{
 		return trackYear;
 	}
 
-	public Hashtable getPlayYears()
+	public Hashtable<Integer, Integer> getPlayYears()
 	{
 		return playYear;
 	}
@@ -348,7 +348,7 @@ public class Stat
 		return bitRate;
 	}
 
-	public Hashtable getPlayCounts()
+	public Hashtable<Integer, Integer> getPlayCounts()
 	{
 		return playCounts;
 	}
@@ -358,13 +358,13 @@ public class Stat
 		return tracksPlayed;
 	}
 
-	public Hashtable getEncodingKinds()
+	public Hashtable<String, Integer> getEncodingKinds()
 	{
 		return encodingKind;
 
 	}
 
-	public Hashtable getDatesAdded()
+	public Hashtable<Day, Integer> getDatesAdded()
 	{
 		return datesAdded;
 

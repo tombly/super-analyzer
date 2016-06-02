@@ -33,7 +33,8 @@ import net.nosleep.superanalyzer.util.StringInt;
  * Describes a collection of albums. The keys are album names and the values are
  * Album objects.
  */
-class Albums extends Hashtable
+@SuppressWarnings("serial")
+class Albums extends Hashtable<String, Album>
 {
 
 	Vector<StringInt> _mostPlayed;
@@ -58,18 +59,18 @@ class Albums extends Hashtable
 		long outOfSum = 0, trackCountSum = 0;
 
 		// go through each album
-		Enumeration keys = keys();
+		Enumeration<String> keys = keys();
 		while (keys.hasMoreElements())
 		{
 
-			String name = (String) keys.nextElement();
+			String name = keys.nextElement();
 			Album album = (Album) get(name);
 
 			int tracksInAlbum = 0;
 
 			// go through each disc of each album and sum up the number of
 			// tracks on each disc.
-			Iterator d = album.getDiscs().iterator();
+			Iterator<Disc> d = album.getDiscs().iterator();
 			while (d.hasNext())
 			{
 				Disc disc = (Disc) d.next();
@@ -116,7 +117,7 @@ class Albums extends Hashtable
 		long completeAlbums = 0;
 		long albumCount = 0;
 
-		Enumeration e = elements();
+		Enumeration<Album> e = elements();
 		while (e.hasMoreElements())
 		{
 			int tracksInAlbum = 0;
@@ -124,7 +125,7 @@ class Albums extends Hashtable
 
 			// go through each disc of each album and sum up the number of
 			// tracks on each disc.
-			Iterator d = album.getDiscs().iterator();
+			Iterator<?> d = album.getDiscs().iterator();
 			while (d.hasNext())
 			{
 				Disc disc = (Disc) d.next();
@@ -151,15 +152,14 @@ class Albums extends Hashtable
 	 * Creates a set of data points where each data point represents the average
 	 * song play count and the average song rating for each album.
 	 */
-	@SuppressWarnings("rawtypes")
-	public Vector getAlbumPlayCountVsRating()
+	public Vector<DPoint> getAlbumPlayCountVsRating()
 	{
 		Vector<DPoint> points = new Vector<DPoint>(1000);
 
-		Enumeration keysEnumeration = keys();
+		Enumeration<String> keysEnumeration = keys();
 		while (keysEnumeration.hasMoreElements())
 		{
-			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album name as a String
+			String currentKey = keysEnumeration.nextElement(); //the key is always the album name as a String
 			Album a = (Album) (get(currentKey));
 			Stat s = a.getStats();
 
@@ -174,11 +174,11 @@ class Albums extends Hashtable
 		return points;
 	}
 
-	public Vector getAlbumPlayCountVsAge()
+	public Vector<DPoint> getAlbumPlayCountVsAge()
 	{
 		Vector<DPoint> points = new Vector<DPoint>(1000);
 
-		Enumeration keysEnumeration = keys();
+		Enumeration<?> keysEnumeration = keys();
 		while (keysEnumeration.hasMoreElements())
 		{
 			String currentKey = (String) keysEnumeration.nextElement(); //the key is always the album name as a String

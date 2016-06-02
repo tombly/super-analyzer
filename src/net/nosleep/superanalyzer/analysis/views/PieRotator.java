@@ -10,6 +10,7 @@ import org.jfree.chart.plot.PiePlot3D;
 /**
  * The rotator.
  */
+@SuppressWarnings("serial")
 public class PieRotator extends Timer implements ActionListener
 {
 

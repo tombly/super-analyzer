@@ -29,6 +29,9 @@ import java.util.Vector;
 
 import javax.swing.JProgressBar;
 
+import org.jfree.data.time.Day;
+
+import net.nosleep.superanalyzer.analysis.TagCheck.TagCheckItem;
 import net.nosleep.superanalyzer.analysis.views.AgePlaycountView;
 import net.nosleep.superanalyzer.analysis.views.AlbumLikesView;
 import net.nosleep.superanalyzer.analysis.views.ArtistLikesView;
@@ -153,16 +156,16 @@ public class Analysis
 		addCollectionToShowVector(albums, Misc.getString("ALBUM"), _comboBoxItems, Analysis.KIND_ALBUM);
 	}
 
-	private void addCollectionToShowVector(Hashtable hash, String prefix, Vector vector, int kind)
+	private void addCollectionToShowVector(Hashtable<String, ?> hash, String prefix, Vector<ComboItem> vector, int kind)
 	{
 		String items[] = new String[hash.size()];
 		int index = 0;
 
-		Enumeration keys = hash.keys();
+		Enumeration<String> keys = hash.keys();
 		while (keys.hasMoreElements())
 		{
 
-			String key = (String) keys.nextElement();
+			String key = keys.nextElement();
 			key = key.replace(Album.Separator, " " + Misc.getString("BY") + " ");
 			items[index] = key;
 			index++;
@@ -256,13 +259,13 @@ public class Analysis
 		return tracks.getTagCheck().tagsAreIncomplete();
 	}
 
-	public Hashtable getEncodingKinds(int kind, String name)
+	public Hashtable<String, Integer> getEncodingKinds(int kind, String name)
 	{
 		Stat stats = getStats(kind, name);
 		return stats.getEncodingKinds();
 	}
 
-	public Hashtable getDatesAdded(int kind, String name)
+	public Hashtable<Day, Integer> getDatesAdded(int kind, String name)
 	{
 		Stat stats = getStats(kind, name);
 		return stats.getDatesAdded();
@@ -376,7 +379,7 @@ public class Analysis
 	
 	
 	
-	public Vector getAlbumPlayCountVsRating()
+	public Vector<DPoint> getAlbumPlayCountVsRating()
 	{
 		return albums.getAlbumPlayCountVsRating();
 	}
@@ -390,7 +393,7 @@ public class Analysis
 		return artists.getArtistPlayCountVsRating(splitByGenre);
 	}
 
-	public Vector getAlbumPlayCountVsAge()
+	public Vector<DPoint> getAlbumPlayCountVsAge()
 	{
 		if (Analysis.genreColors.isEmpty()){
 			getAlbumPlayCountVsRating(); //make sure the genre colors are the same no matter what chart is viewed first
@@ -444,7 +447,7 @@ public class Analysis
 		return tracks.getMostCommonWords();
 	}
 
-	public Vector getTagCheck()
+	public Vector<TagCheckItem> getTagCheck()
 	{
 		return tracks.getTagCheck().getPairs();
 	}
@@ -454,7 +457,7 @@ public class Analysis
 	 * @param the kind as specified with the constants
 	 * @return the hashtable of this type
 	 */
-	public Hashtable getHash(int kind)
+	public Hashtable<String, ? extends StatHolder> getHash(int kind)
 	{
 		switch (kind)
 		{
@@ -479,10 +482,10 @@ public class Analysis
 			return tracks.getStats();
 
 		// get the hash table we're working with
-		Hashtable hash = getHash(kind);
+		Hashtable<String, ? extends StatHolder> hash = getHash(kind);
 
 		// get the items from the collection that match our search name
-		StatHolder item = (StatHolder) hash.get(name);
+		StatHolder item = hash.get(name);
 		if (item == null)
 		{
 			System.out.println("ERROR: unable to find selected item: " + name);
@@ -496,7 +499,7 @@ public class Analysis
 
 	private static boolean vectorContainsString(Vector<StringInt> v, String s)
 	{
-		Iterator i = v.iterator();
+		Iterator<StringInt> i = v.iterator();
 		while (i.hasNext())
 		{
 			StringInt vs = (StringInt) i.next();
@@ -506,18 +509,18 @@ public class Analysis
 		return false;
 	}
 
-	private static void topSearch(Vector<StringInt> chosenNames, boolean byRating, Hashtable hash)
+	private static void topSearch(Vector<StringInt> chosenNames, boolean byRating, Hashtable<String, ? extends StatHolder> hash)
 	{
 		int count = 0;
 		int topValue = 0;
 		String topString = "";
 
-		Enumeration keys = hash.keys();
+		Enumeration<String> keys = hash.keys();
 		while (keys.hasMoreElements())
 		{
 
-			String name = (String) keys.nextElement();
-			StatHolder holder = (StatHolder) hash.get(name);
+			String name = keys.nextElement();
+			StatHolder holder = hash.get(name);
 
 			int value;
 
@@ -551,7 +554,7 @@ public class Analysis
 	 * we just do topCount number of passes through the collection sure, it
 	 * might take a sec, but it's soooo clean to program it
 	 */
-	public static Vector<StringInt> findMostPlayed(Hashtable hash)
+	public static Vector<StringInt> findMostPlayed(Hashtable<String, ? extends StatHolder> hash)
 	{
 
 		Vector<StringInt> items = new Vector<StringInt>();

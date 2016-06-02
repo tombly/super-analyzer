@@ -4,18 +4,11 @@ import org.jfree.data.xy.XYDataset;
 
 /**
  * 
- * A dataset with keys and x,y values for each entry.
+ * A dataset with keys and x,y values for each entry. The keys are sorted into series.
  *
  */
 public interface KeyXYDataset extends XYDataset {
-	/**
-     * Returns the number of items in the series.
-     *
-     * @param The series
-     * @return The item count.
-     */
-    public int getItemCount(int series);
-
+	
     /**
      * Returns the key for a item.
      *
@@ -26,6 +19,6 @@ public interface KeyXYDataset extends XYDataset {
      *
      * @return The key for the item.
      */
-    public Comparable getItemKey(int series, int item);
+    public Comparable<?> getItemKey(int series, int item);
 
 }

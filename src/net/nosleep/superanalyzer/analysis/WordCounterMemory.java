@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
 
-import net.nosleep.superanalyzer.analysis.WordCounterMemory.CommonWord;
-
 public class WordCounterMemory
 {
 
@@ -43,6 +41,7 @@ public class WordCounterMemory
 		// get the track name in lower case
 		String name = track.getName().toLowerCase();
 
+		@SuppressWarnings("resource")
 		Scanner scn = new Scanner(name).useDelimiter("[\\s()\\]\\[!@#\\$%\\^&\\*\\{\\}:;<>\\/\\?\\.,\"_=\\+]");
 		while (scn.hasNext())
 		{
@@ -116,7 +115,7 @@ public class WordCounterMemory
 		return false;
 	}
 
-	public Vector getMostCommonWords()
+	public Vector<CommonWord> getMostCommonWords()
 	{
 		return mostCommonWords;
 	}
@@ -128,14 +127,14 @@ public class WordCounterMemory
 	public void finish()
 	{
 
-		mostCommonWords = new Vector();
+		mostCommonWords = new Vector<CommonWord>();
 
 		for (int j = 0; j < 25; j++)
 		{
 			Integer highest = 0;
 			String highestWord = null;
 
-			Iterator i = words.keySet().iterator();
+			Iterator<String> i = words.keySet().iterator();
 			while (i.hasNext())
 			{
 				String word = (String) i.next();

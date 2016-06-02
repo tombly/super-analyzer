@@ -138,12 +138,12 @@ public class QualityView implements IStatisticView
 			itemStats = _analysis.getStats(item.getKind(), item.getValue());
 		}
 
-		Vector counts = new Vector(5);
+		Vector<Double> counts = new Vector<Double>(5);
 		int[] rates = itemStats.getBitRates();
 		for (int i = 0; i < rates.length; i++)
 			counts.addElement(new Double(rates[i]));
 
-		Vector labels = new Vector(5);
+		Vector<String> labels = new Vector<String>(5);
 		labels.add(new String(Misc.getString("POOR") + "\n(0-63 kbps)\n"));
 		labels.add(new String(Misc.getString("LOW") + "\n(64-127 kbps)\n"));
 		labels.add(new String(Misc.getString("GOOD") + "\n(128-191 kbps)\n"));

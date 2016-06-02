@@ -19,7 +19,9 @@
 
 package net.nosleep.superanalyzer.analysis;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Vector;
 
 /**
  * This class describes a collection of tracks. This Stat object contains
@@ -73,6 +75,7 @@ class Tracks
 		tagCheck.finish();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Vector getMostCommonWords()
 	{
 		return wordCounter.getMostCommonWords();

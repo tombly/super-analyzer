@@ -39,7 +39,7 @@ public class WordCounterDisk
 	private static int MAX_COUNT_LENGTH = 4;
 	private Vector<CommonWord> mostCommonWords;
 	private RandomAccessFile file;
-	private Hashtable words;
+	private Hashtable<String, Integer> words;
 	private File tempFile;
 
 	private static String spaces1 = " ";
@@ -52,7 +52,7 @@ public class WordCounterDisk
 	public WordCounterDisk()
 	{
 
-		words = new Hashtable();
+		words = new Hashtable<String, Integer>();
 
 		tempFile = new File(System.getProperty("java.io.tmpdir") + "/words");
 
@@ -75,6 +75,7 @@ public class WordCounterDisk
 		// get the track name in lower case
 		String name = track.getName().toLowerCase();
 
+		@SuppressWarnings("resource")
 		Scanner scn = new Scanner(name).useDelimiter("[\\s()\\]\\[!@#\\$%\\^&\\*\\{\\}:;<>\\/\\?\\.,\"_=\\+]");
 		while (scn.hasNext())
 		{
@@ -113,7 +114,7 @@ public class WordCounterDisk
 	{
 		Vector<StringInt> pairs = new Vector<StringInt>(words.size());
 
-		Enumeration keys = words.keys();
+		Enumeration<String> keys = words.keys();
 		while (keys.hasMoreElements() == true)
 		{
 			String key = (String) keys.nextElement();
@@ -152,7 +153,6 @@ public class WordCounterDisk
 				if (nread <= 0)
 					break;
 
-				int foundCount = 0;
 				bytesOffset = 0;
 				while (true)
 				{

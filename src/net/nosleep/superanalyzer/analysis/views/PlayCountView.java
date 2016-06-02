@@ -186,14 +186,14 @@ public class PlayCountView implements IStatisticView
 			itemStats = _analysis.getStats(item.getKind(), item.getValue());
 		}
 
-		Vector playCountList = new Vector();
+		Vector<PlayCountItem> playCountList = new Vector<PlayCountItem>();
 
-		Hashtable playCounts = itemStats.getPlayCounts();
-		Enumeration e = playCounts.keys();
+		Hashtable<Integer, Integer> playCounts = itemStats.getPlayCounts();
+		Enumeration<Integer> e = playCounts.keys();
 		while (e.hasMoreElements())
 		{
-			Integer playCount = (Integer) e.nextElement();
-			Integer count = (Integer) playCounts.get(playCount);
+			Integer playCount = e.nextElement();
+			Integer count = playCounts.get(playCount);
 			if (count.intValue() > 0)
 				playCountList.addElement(new PlayCountItem(playCount.intValue(), count.intValue()));
 		}

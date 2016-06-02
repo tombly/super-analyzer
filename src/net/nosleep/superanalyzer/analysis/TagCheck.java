@@ -84,7 +84,7 @@ public class TagCheck
 				.add(new TagCheckItem(Misc.getString("ARTWORK"), getPercentage(tagArtwork, tagCount), tagArtwork, true));
 	}
 
-	public Vector getPairs()
+	public Vector<TagCheckItem> getPairs()
 	{
 		return _tagPairs;
 	}

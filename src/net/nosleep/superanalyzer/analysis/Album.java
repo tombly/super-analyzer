@@ -50,7 +50,7 @@ public class Album implements StatHolder
 		// artistName = artistName;
 		stats = new Stat();
 		isCompilation = false;
-		discs = new Vector();
+		discs = new Vector<Disc>();
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Album implements StatHolder
 		// look through the discs for this album and see if there is already a
 		// disc object for this disc number or not.
 		Disc disc = null;
-		Iterator i = discs.iterator();
+		Iterator<Disc> i = discs.iterator();
 		while (i.hasNext())
 		{
 			Disc d = (Disc) i.next();
