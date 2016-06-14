@@ -138,7 +138,7 @@ public class ArtistLikesView2 implements IStatisticView
 		 * rangeAxis.setMinorTickCount(2);
 		 * rangeAxis.setMinorTickMarksVisible(true);
 		 */
-		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		rangeAxis.setAutoTickUnitSelection(true);
 
 		NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
 		domainAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
