@@ -22,6 +22,8 @@ package net.nosleep.superanalyzer.analysis.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -75,7 +77,11 @@ public class GenreView implements IStatisticView
 
 		refreshDataset();
 
-		_chartPanel = new ChartPanel(_chart);
+		double factor = 1;
+		Rectangle windowSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		_chartPanel = new ChartPanel(_chart, (int) windowSize.getWidth() / 2, (int) windowSize.getHeight() / 2,
+				400, 300, (int) (windowSize.getWidth() * factor), (int) ((windowSize.getHeight() - 64) * factor),
+				true, true, true, true, true, true);
 	}
 
 	public JPanel getPanel(HomePanel homePanel)

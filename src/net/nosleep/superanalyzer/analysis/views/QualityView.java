@@ -22,6 +22,8 @@ package net.nosleep.superanalyzer.analysis.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
@@ -82,7 +84,11 @@ public class QualityView implements IStatisticView
 		_dataset = new DefaultPieDataset();
 
 		createChart();
-		_chartPanel = new ChartPanel(_chart);
+		double factor = 1; //percentage of maximum available space in panel, numbers lower than 1 leads to upscaling
+		Rectangle windowSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		_chartPanel = new ChartPanel(_chart, (int) windowSize.getWidth() / 2, (int) windowSize.getHeight() / 2,
+				400, 300, (int) (windowSize.getWidth() * factor), (int) ((windowSize.getHeight() - 64) * factor),
+				true, true, true, true, true, true);
 		_chartPanel.setMouseWheelEnabled(true);
 
 		refreshDataset();
