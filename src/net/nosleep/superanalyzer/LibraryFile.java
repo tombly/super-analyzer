@@ -49,6 +49,12 @@ public class LibraryFile
 		return _file;
 	}
 
+	
+	/**
+	 * 
+	 * @return true if a valid file was selected
+	 *
+	 */
 	public boolean askUser()
 	{
 
@@ -65,6 +71,20 @@ public class LibraryFile
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return false;
 		_file = chooser.getSelectedFile();
+		
+		String extension = "";
+
+		int i = _file.getName().lastIndexOf('.');
+		if (i > 0) {
+		    extension = _file.getName().substring(i+1);
+		}
+		
+		if(!extension.equals("xml")) {
+			JOptionPane.showMessageDialog(_window, Misc.getString("NO_LIBRARY_FILE_SELECTED"), "Super Analyzer",
+					JOptionPane.ERROR_MESSAGE);						
+			_file = null;
+			return false; //file extension is not xml
+		}
 
 		return true;
 	}
@@ -106,6 +126,10 @@ public class LibraryFile
 		_file = null;
 	}
 
+	/**
+	 * 
+	 * @return true if a library file was found
+	 */
 	public boolean findLibraryFile()
 	{
 		// if the library file has not been set
@@ -126,6 +150,20 @@ public class LibraryFile
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
 					_file = chooser.getSelectedFile();
+					
+					String extension = "";
+
+					int i = _file.getName().lastIndexOf('.');
+					if (i > 0) {
+					    extension = _file.getName().substring(i+1);
+					}
+					
+					if(!extension.equals("xml")){
+						JOptionPane.showMessageDialog(_window, Misc.getString("NO_LIBRARY_FILE_SELECTED"), "Super Analyzer",
+								JOptionPane.ERROR_MESSAGE);						
+						_file = null;
+						return false; //file extension is not xml
+					}
 
 					// lets save this in the temp folder of the computer so we
 					// don't have to always look it up
