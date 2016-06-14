@@ -145,7 +145,9 @@ public class HomeWindow extends JFrame
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		_rootPanel.setPreferredSize(new Dimension(gd.getDisplayMode().getWidth()/2, gd.getDisplayMode().getHeight()/2)); //window adapts to screen aspect ratio
 		_rootPanel.add(_contentPanel);
+		
 
+		setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(Color.white);

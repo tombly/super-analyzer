@@ -23,6 +23,8 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +74,11 @@ public class AlbumLikesView implements IStatisticView
 		_dataset = new ColorSeriesXYDataSet(points);
 
 		createChart();
-		_chartPanel = new ChartPanel(_chart);
+		double factor = 1; //percentage of maximum available space in panel, numbers lower than 1 leads to upscaling
+		Rectangle windowSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		_chartPanel = new ChartPanel(_chart, (int) windowSize.getWidth() / 2, (int) windowSize.getHeight() / 2,
+				400, 300, (int) (windowSize.getWidth() * factor), (int) ((windowSize.getHeight() - 64) * factor),
+				true, true, true, true, true, true);
 		_chartPanel.setMouseWheelEnabled(true);
 	}
 
@@ -129,8 +135,9 @@ public class AlbumLikesView implements IStatisticView
 		 * rangeAxis.setMinorTickCount(2);
 		 * rangeAxis.setMinorTickMarksVisible(true);
 		 */
-		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-
+		//rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		rangeAxis.setAutoTickUnitSelection(true);
+		
 		NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
 		domainAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
