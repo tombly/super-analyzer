@@ -1,4 +1,4 @@
-super-analyzer
+Super Analyzer
 ==============
 
 The Super Analyzer analyzes your iTunes music library and gives you interesting statistics. For example, visually see how many songs you have in each genre or from each decade, or see what time of day you listen most often.
