@@ -45,7 +45,7 @@ Once launched
 
 ## Similar Projects
 
-- [GraphMyTunes](https://github.com/search?q=GraphMyTunes)
+- [GraphMyTunes](https://github.com/homebysix/GraphMyTunes)
 
 ## License
 
