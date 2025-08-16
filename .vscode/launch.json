@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Super Analyzer",
+      "request": "launch",
+      "mainClass": "net.nosleep.superanalyzer.Main",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build-super-analyzer",
+      "console": "integratedTerminal"
+    }
+  ]
+}
