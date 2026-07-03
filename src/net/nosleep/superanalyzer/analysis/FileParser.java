@@ -25,7 +25,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JProgressBar;
 
@@ -59,7 +60,10 @@ public class FileParser
 	 * Holds a list of all the Track Id's that are in the Music playlist so that
 	 * we know which ones to include in the analysis.
 	 */
-	private Vector<Integer> _musicPlaylist;
+	private Set<Integer> _musicPlaylist;
+
+	private int _tracksParsed;
+	private int _tracksAnalyzed;
 
 	/**
 	 * Simple constructor to set the data members.
@@ -96,6 +100,8 @@ public class FileParser
 
 		try
 		{
+			System.out.println("Parsing " + _inputFile.getName() + " (" + _inputFile.length() + " bytes)");
+
 			// phase 1 - read the music playlist
 			readMusicPlaylist(_inputFile);
 
@@ -118,48 +124,58 @@ public class FileParser
 	private void readMusicPlaylist(File file) throws IOException
 	{
 
-		_musicPlaylist = new Vector<Integer>();
+		_musicPlaylist = new HashSet<Integer>();
 
 		FileInputStream fs = new FileInputStream(file);
 		BufferedReader in = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
 
-		// jump to the start of the playlists toward the end of the file
-		scanToLine(in, "<key>Playlists</key>");
+		long phaseStart = Calendar.getInstance().getTimeInMillis();
+		System.out.println("Phase 1: locating Music playlist...");
+
+		if (!scanToLine(in, "<key>Playlists</key>"))
+		{
+			in.close();
+			fs.close();
+			System.err.println("ERROR: no Playlists section found");
+			System.exit(1);
+		}
 
 		// jump to the start of the music playlist. this is how we identify the
 		// music playlist since we can't use the name, since it changes with
 		// the language (e.g. in German it's Musik)
-		boolean found = scanToLine(in, "<key>Music</key><true/>");
+		boolean found = scanToMusicPlaylist(in);
 
 		// handle the case when we don't find the music playlist
 		if (found == false)
 		{
-			// close it up
+			System.out.println("Phase 1: Music marker not found, using first playlist");
+
 			in.close();
 			fs.close();
 
-			// open it again
 			fs = new FileInputStream(file);
 			in = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
-
-			// jump to the start of the playlists toward the end of the file
 			scanToLine(in, "<key>Playlists</key>");
 		}
 
-		// read in all the track info
-		while (true)
-		{
-
-			if (readPlaylistItem(in) == false)
-				break;
-		}
+		readPlaylistItems(in);
 
 		in.close();
 		fs.close();
+
+		long phaseEnd = Calendar.getInstance().getTimeInMillis();
+		System.out.println("Phase 1: loaded " + _musicPlaylist.size() + " track IDs ("
+				+ ((phaseEnd - phaseStart) / 1000.0) + " s)");
 	}
 
 	private void readMusicTracks(File file) throws IOException
 	{
+		long phaseStart = Calendar.getInstance().getTimeInMillis();
+		_tracksParsed = 0;
+		_tracksAnalyzed = 0;
+
+		System.out.println("Phase 2: reading tracks...");
+
 		FileInputStream fs = new FileInputStream(file);
 		BufferedReader in = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
 
@@ -181,30 +197,47 @@ public class FileParser
 
 		in.close();
 		fs.close();
+
+		long phaseEnd = Calendar.getInstance().getTimeInMillis();
+		System.out.println("Phase 2: parsed " + _tracksParsed + " tracks, analyzed " + _tracksAnalyzed + " ("
+				+ ((phaseEnd - phaseStart) / 1000.0) + " s)");
 	}
 
-	private boolean readPlaylistItem(BufferedReader in) throws IOException
+	private void readPlaylistItems(BufferedReader in) throws IOException
 	{
-		String s;
-		boolean shouldStop = false;
-
 		while (true)
 		{
-			s = readLine(in);
+			String s = readLine(in);
 			// stop when we reach the playlist's ending <array> tag
 			if (s == null || s.indexOf("</array>") >= 0)
-			{
-				shouldStop = true;
 				break;
-			}
 
 			processPlaylistLine(s);
 		}
+	}
 
-		if (shouldStop == true)
-			return false;
-		else
-			return true;
+	/**
+	 * Finds the distinguished Music playlist marker. Accepts the marker on one
+	 * line or split across two lines.
+	 */
+	private boolean scanToMusicPlaylist(BufferedReader in) throws IOException
+	{
+		String s;
+		while ((s = readLine(in)) != null)
+		{
+			if (s.equals("<key>Music</key><true/>")
+					|| (s.indexOf("<key>Music</key>") >= 0 && s.indexOf("<true/>") >= 0))
+				return true;
+
+			if (s.equals("<key>Music</key>"))
+			{
+				String next = readLine(in);
+				if (next != null && (next.equals("<true/>") || next.indexOf("<true/>") >= 0))
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -218,14 +251,16 @@ public class FileParser
 
 		// the first line of each track section begins with a key tag
 		s = readLine(in);
-		if (s.indexOf("<key>") < 0)
+		if (s == null || s.indexOf("<key>") < 0)
 			return false;
 
 		// now read the <dict> tag that follows it, and cancel if it's not a
 		// dict tag
 		s = readLine(in);
-		if (s.indexOf("<dict>") < 0)
+		if (s == null || s.indexOf("<dict>") < 0)
 			return false;
+
+		_tracksParsed++;
 
 		Track track = new Track();
 
@@ -240,7 +275,7 @@ public class FileParser
 		{
 			s = readLine(in);
 			// stop when we reach the track's ending dict tag
-			if (s.indexOf("</dict>") >= 0)
+			if (s == null || s.indexOf("</dict>") >= 0)
 				break;
 			// otherwise, we process the line
 			processTrackLine(s, track);
@@ -251,10 +286,6 @@ public class FileParser
 		// see if the track is in the music playlist
 		if (_musicPlaylist.contains(track.getTrackID()) == false)
 			isMusicFile = false;
-		else
-			// this saves memory if we remove the track id from the playlist
-			// vector once we've found the actual track and processed it
-			_musicPlaylist.remove(track.getTrackID());
 
 		if (track.getLocation() != null)
 			if (track.getLocation().toLowerCase().endsWith("m4v") == true)
@@ -263,7 +294,10 @@ public class FileParser
 			}
 
 		if (isMusicFile == true)
+		{
 			_analysis.analyze(track);
+			_tracksAnalyzed++;
+		}
 
 		return true;
 	}
@@ -298,7 +332,9 @@ public class FileParser
 
 		if (s != null)
 		{
-			_byteCount += s.length();
+			_byteCount += s.length() + 1;
+			if (_byteCount > _progressBar.getMaximum())
+				_byteCount = _progressBar.getMaximum();
 			_progressBar.setValue(_byteCount);
 
 			s = s.trim();
