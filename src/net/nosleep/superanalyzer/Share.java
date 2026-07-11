@@ -258,6 +258,9 @@ public class Share
 			String tmpPath = System.getProperty("java.io.tmpdir") + "/image.png";
 
 			// create the pdf document object
+
+			// create a writer that listens to the document
+			// and directs a PDF-stream to a file
 			PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
 
 			// we open the document
@@ -453,7 +456,10 @@ public class Share
 		finally
 		{
 			if (documentOpened)
+			{
+				// step 5: we close the document
 				document.close();
+			}
 		}
 	}
 

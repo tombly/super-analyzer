@@ -549,11 +549,14 @@ public class HomeWindow extends JFrame
 		_contentPanel.add(waitingPanel);
 		_contentPanel.updateUI();
 
+		// update the app state and the menu items
 		_state = ANALYZING;
 		setMenuUsability();
+
+		// release the home panel to free up any memory
 		_homePanel = null;
 
-		// perform the export in a thread so that the user interface remains
+		// perform the analysis in a thread so that the user interface remains
 		// responsive
 		new Thread(new Runnable()
 		{
@@ -568,6 +571,8 @@ public class HomeWindow extends JFrame
 						Share.saveAnalysisPdf(outputFile, _analysis, waitingPanel.getProgressBar());
 						break;
 					case 2:
+						// Share.saveListOfArtistsAsTxt(_frame, _analysis,
+						// waitingPanel.getProgressBar());
 						Share.saveAnalysisHtml(outputFile, _analysis, waitingPanel.getProgressBar());
 						break;
 					case 3:

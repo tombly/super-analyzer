@@ -132,6 +132,7 @@ public class FileParser
 		long phaseStart = Calendar.getInstance().getTimeInMillis();
 		System.out.println("Phase 1: locating Music playlist...");
 
+		// jump to the start of the playlists toward the end of the file
 		if (!scanToLine(in, "<key>Playlists</key>"))
 		{
 			in.close();
@@ -150,14 +151,19 @@ public class FileParser
 		{
 			System.out.println("Phase 1: Music marker not found, using first playlist");
 
+			// close it up
 			in.close();
 			fs.close();
 
+			// open it again
 			fs = new FileInputStream(file);
 			in = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
+
+			// jump to the start of the playlists toward the end of the file
 			scanToLine(in, "<key>Playlists</key>");
 		}
 
+		// read in all the track info
 		readPlaylistItems(in);
 
 		in.close();
@@ -286,6 +292,11 @@ public class FileParser
 		// see if the track is in the music playlist
 		if (_musicPlaylist.contains(track.getTrackID()) == false)
 			isMusicFile = false;
+		else
+		{
+			// this saves memory if we remove the track id from the playlist
+			// vector once we've found the actual track and processed it
+		}
 
 		if (track.getLocation() != null)
 			if (track.getLocation().toLowerCase().endsWith("m4v") == true)

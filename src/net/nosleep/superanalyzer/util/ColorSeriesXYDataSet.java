@@ -98,7 +98,7 @@ public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 	 */
 	public Comparable<?> getSeriesKey(int series)
 	{
-		String key = _points.get(series).firstElement().secondName;
+		String key = _points.get(series).firstElement().secondName; //gets the genre for the first element in the series, assuming they are all of the same genre
 		if (key == null)
 			return "Unknown";
 		return key;
