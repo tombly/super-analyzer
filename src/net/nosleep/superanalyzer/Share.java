@@ -164,7 +164,17 @@ public class Share
 		}
 	}
 
-	private static void exportViewImage(Analysis analysis, ViewFactory factory, File file, Dimension d)
+	private interface ViewFactory
+	{
+		IStatisticView create(Analysis analysis);
+	}
+
+	private interface ViewExportAction
+	{
+		void export(IStatisticView view) throws Exception;
+	}
+
+	private static void runViewExport(Analysis analysis, ViewFactory factory, ViewExportAction action)
 			throws Exception
 	{
 		Exception[] error = new Exception[1];
@@ -175,7 +185,7 @@ public class Share
 				try
 				{
 					IStatisticView view = factory.create(analysis);
-					view.saveImage(file, d);
+					action.export(view);
 					view.willDisappear();
 				}
 				catch (Exception e)
@@ -187,37 +197,31 @@ public class Share
 
 		if (error[0] != null)
 			rethrowExportException(error[0]);
+	}
+
+	private static void exportViewImage(Analysis analysis, ViewFactory factory, File file, Dimension d)
+			throws Exception
+	{
+		runViewExport(analysis, factory, new ViewExportAction()
+		{
+			public void export(IStatisticView view) throws Exception
+			{
+				view.saveImage(file, d);
+			}
+		});
 	}
 
 	private static void exportViewImages(Analysis analysis, ViewFactory factory, File primary, File secondary,
 			Dimension d) throws Exception
 	{
-		Exception[] error = new Exception[1];
-		SwingUtilities.invokeAndWait(new Runnable()
+		runViewExport(analysis, factory, new ViewExportAction()
 		{
-			public void run()
+			public void export(IStatisticView view) throws Exception
 			{
-				try
-				{
-					IStatisticView view = factory.create(analysis);
-					view.saveImage(primary, d);
-					view.saveImageExtra(secondary, d);
-					view.willDisappear();
-				}
-				catch (Exception e)
-				{
-					error[0] = e;
-				}
+				view.saveImage(primary, d);
+				view.saveImageExtra(secondary, d);
 			}
 		});
-
-		if (error[0] != null)
-			rethrowExportException(error[0]);
-	}
-
-	private interface ViewFactory
-	{
-		IStatisticView create(Analysis analysis);
 	}
 
 	private static void rethrowExportException(Exception e) throws IOException
@@ -474,28 +478,7 @@ public class Share
 			Dimension d) throws Exception
 	{
 		File secondaryPath = new File(tmpPath + "2");
-		Exception[] error = new Exception[1];
-		SwingUtilities.invokeAndWait(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					IStatisticView view = factory.create(analysis);
-					view.saveImage(new File(tmpPath), d);
-					view.saveImageExtra(secondaryPath, d);
-					view.willDisappear();
-				}
-				catch (Exception e)
-				{
-					error[0] = e;
-				}
-			}
-		});
-
-		if (error[0] != null)
-			rethrowExportException(error[0]);
-
+		exportViewImages(analysis, factory, new File(tmpPath), secondaryPath, d);
 		table.addCell(Image.getInstance(tmpPath));
 		table.addCell(Image.getInstance(secondaryPath.getAbsolutePath()));
 	}
