@@ -4,12 +4,10 @@ set -e
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-mkdir -p build/classes build/jar
-find src -name '*.java' -print0 | xargs -0 javac -encoding UTF-8 -d build/classes -cp 'libs/*'
-mkdir -p build/classes/media
-rsync -a src/media/ build/classes/media/
-cp src/*.properties build/classes/
+# Compile classes and copy resources (same as a normal build)
+sh "$ROOT/build.sh"
 
+mkdir -p build/jar
 rm -rf build/jar/staging
 mkdir -p build/jar/staging
 
