@@ -25,6 +25,7 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingUtilities;
 
 import net.nosleep.superanalyzer.analysis.Analysis;
 import net.nosleep.superanalyzer.analysis.views.TagView;
@@ -521,11 +523,38 @@ public class HomeWindow extends JFrame
 
 	private void performLongOp(final int op)
 	{
+		File destination = null;
+
+		switch (op)
+		{
+		case 1:
+			destination = Share.askForFile(this, "pdf");
+			break;
+		case 2:
+			destination = Share.askForFolder(this);
+			break;
+		case 3:
+			destination = Share.askForFile(this, "pdf");
+			break;
+		}
+
+		if (destination == null)
+			return;
+
+		final File outputFile = destination;
+
 		// create the panel with the progress bar
 		final WaitingPanel waitingPanel = new WaitingPanel();
 		_contentPanel.removeAll();
 		_contentPanel.add(waitingPanel);
 		_contentPanel.updateUI();
+
+		// update the app state and the menu items
+		_state = ANALYZING;
+		setMenuUsability();
+
+		// release the home panel to free up any memory
+		_homePanel = null;
 
 		// perform the analysis in a thread so that the user interface remains
 		// responsive
@@ -534,42 +563,46 @@ public class HomeWindow extends JFrame
 			public void run()
 			{
 
-				// update the app state and the menu items
-				_state = ANALYZING;
-				setMenuUsability();
-
-				// release the home panel to free up any memory
-				_homePanel = null;
-
-				switch (op)
+				try
 				{
-				case 1:
-					Share.saveAnalysisPdf(_frame, _analysis, waitingPanel.getProgressBar());
-					break;
-				case 2:
-					// Share.saveListOfArtistsAsTxt(_frame, _analysis,
-					// waitingPanel.getProgressBar());
-					Share.saveAnalysisHtml(_frame, _analysis, waitingPanel.getProgressBar());
-					break;
-				case 3:
-					Share.saveListOfAlbums(_frame, _analysis, waitingPanel.getProgressBar());
-					break;
+					switch (op)
+					{
+					case 1:
+						Share.saveAnalysisPdf(outputFile, _analysis, waitingPanel.getProgressBar());
+						break;
+					case 2:
+						// Share.saveListOfArtistsAsTxt(_frame, _analysis,
+						// waitingPanel.getProgressBar());
+						Share.saveAnalysisHtml(outputFile, _analysis, waitingPanel.getProgressBar());
+						break;
+					case 3:
+						Share.saveListOfAlbums(outputFile, _analysis, waitingPanel.getProgressBar());
+						break;
+					}
 				}
+				finally
+				{
+					SwingUtilities.invokeLater(new Runnable()
+					{
+						public void run()
+						{
+							// create the panel that holds the buttons and chart panels
+							_homePanel = new HomePanel(_frame, _analysis);
 
-				// create the panel that holds the buttons and chart panels
-				_homePanel = new HomePanel(_frame, _analysis);
+							// add the home panel to the content panel
+							_contentPanel.removeAll();
+							_contentPanel.add(_homePanel, BorderLayout.CENTER);
+							_contentPanel.updateUI();
 
-				// add the home panel to the content panel
-				_contentPanel.removeAll();
-				_contentPanel.add(_homePanel, BorderLayout.CENTER);
-				_contentPanel.updateUI();
+							// clear the window and put the home panel in it
+							showContentPanel();
 
-				// clear the window and put the home panel in it
-				showContentPanel();
-
-				// update the app state and the menu items
-				_state = DONE;
-				setMenuUsability();
+							// update the app state and the menu items
+							_state = DONE;
+							setMenuUsability();
+						}
+					});
+				}
 			}
 		}).start();
 

@@ -98,7 +98,10 @@ public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 	 */
 	public Comparable<?> getSeriesKey(int series)
 	{
-		return _points.get(series).firstElement().secondName; //gets the genre for the first element in the series, assuming they are all of the same genre
+		String key = _points.get(series).firstElement().secondName; //gets the genre for the first element in the series, assuming they are all of the same genre
+		if (key == null)
+			return "Unknown";
+		return key;
 	}
 
 	/**
@@ -116,7 +119,10 @@ public class ColorSeriesXYDataSet extends SimpleXYDataSet {
 
 	@Override
 	public Comparable<?> getItemKey(int series, int item) {
-		return ((DPoint) _points.get(series).elementAt(item)).name; 
+		String key = ((DPoint) _points.get(series).elementAt(item)).name;
+		if (key == null)
+			return "";
+		return key;
 	}
 	
 	public Color getColor(int series){

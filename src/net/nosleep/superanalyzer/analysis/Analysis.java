@@ -251,6 +251,8 @@ public class Analysis
 
 	public Vector<ComboItem> getComboBoxItems()
 	{
+		if (_comboBoxItems == null)
+			createComboBoxItems();
 		return _comboBoxItems;
 	}
 

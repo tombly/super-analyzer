@@ -43,6 +43,7 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -163,10 +164,78 @@ public class Share
 		}
 	}
 
-	public static void saveAnalysisPdf(JFrame window, Analysis analysis, JProgressBar progressBar)
+	private interface ViewFactory
+	{
+		IStatisticView create(Analysis analysis);
+	}
+
+	private interface ViewExportAction
+	{
+		void export(IStatisticView view) throws Exception;
+	}
+
+	private static void runViewExport(Analysis analysis, ViewFactory factory, ViewExportAction action)
+			throws Exception
+	{
+		Exception[] error = new Exception[1];
+		SwingUtilities.invokeAndWait(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					IStatisticView view = factory.create(analysis);
+					action.export(view);
+					view.willDisappear();
+				}
+				catch (Exception e)
+				{
+					error[0] = e;
+				}
+			}
+		});
+
+		if (error[0] != null)
+			rethrowExportException(error[0]);
+	}
+
+	private static void exportViewImage(Analysis analysis, ViewFactory factory, File file, Dimension d)
+			throws Exception
+	{
+		runViewExport(analysis, factory, new ViewExportAction()
+		{
+			public void export(IStatisticView view) throws Exception
+			{
+				view.saveImage(file, d);
+			}
+		});
+	}
+
+	private static void exportViewImages(Analysis analysis, ViewFactory factory, File primary, File secondary,
+			Dimension d) throws Exception
+	{
+		runViewExport(analysis, factory, new ViewExportAction()
+		{
+			public void export(IStatisticView view) throws Exception
+			{
+				view.saveImage(primary, d);
+				view.saveImageExtra(secondary, d);
+			}
+		});
+	}
+
+	private static void rethrowExportException(Exception e) throws IOException
+	{
+		if (e instanceof IOException)
+			throw (IOException) e;
+		if (e instanceof RuntimeException)
+			throw (RuntimeException) e;
+		throw new IOException(e);
+	}
+
+	public static void saveAnalysisPdf(File pdfFile, Analysis analysis, JProgressBar progressBar)
 	{
 
-		File pdfFile = askForFile(window, "pdf");
 		if (pdfFile == null)
 			return;
 
@@ -184,13 +253,15 @@ public class Share
 
 		Dimension d = new Dimension(500, 400);
 
+		Document document = new Document();
+		boolean documentOpened = false;
+
 		try
 		{
 
 			String tmpPath = System.getProperty("java.io.tmpdir") + "/image.png";
 
 			// create the pdf document object
-			Document document = new Document();
 
 			// create a writer that listens to the document
 			// and directs a PDF-stream to a file
@@ -198,6 +269,7 @@ public class Share
 
 			// we open the document
 			document.open();
+			documentOpened = true;
 
 			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 18, Font.NORMAL,
 					new Color(0x00, 0x00, 0x00));
@@ -254,158 +326,166 @@ public class Share
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			GenreView genreView = new GenreView(analysis);
-			genreView.saveImage(new File(tmpPath), d);
-			genreView = null;
-
-			Image img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new GenreView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			AlbumLikesView likesView = new AlbumLikesView(analysis);
-			likesView.saveImage(new File(tmpPath), d);
-			likesView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new AlbumLikesView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			YearView yearView = new YearView(analysis);
-			yearView.saveImage(new File(tmpPath), d);
-			yearView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new YearView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			RatingView ratingView = new RatingView(analysis);
-			ratingView.saveImage(new File(tmpPath), d);
-			ratingView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new RatingView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			TimeView timeView = new TimeView(analysis);
-			timeView.saveImage(new File(tmpPath), d);
-			timeView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new TimeView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			QualityView qualityView = new QualityView(analysis);
-			qualityView.saveImage(new File(tmpPath), d);
-			qualityView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new QualityView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			PlayCountView playCountView = new PlayCountView(analysis);
-			playCountView.saveImage(new File(tmpPath), d);
-			playCountView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new PlayCountView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			MostPlayedAAView mostPlayedAAView = new MostPlayedAAView(analysis);
-
-			mostPlayedAAView.saveImage(new File(tmpPath), d);
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
-			mostPlayedAAView.saveImageExtra(new File(tmpPath), d);
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
-			mostPlayedAAView = null;
-
+			addPdfChartImages(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new MostPlayedAAView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			MostPlayedDGView mostPlayedDGView = new MostPlayedDGView(analysis);
-
-			mostPlayedDGView.saveImage(new File(tmpPath), d);
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
-			mostPlayedDGView.saveImageExtra(new File(tmpPath), d);
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
-			mostPlayedDGView = null;
-
+			addPdfChartImages(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new MostPlayedDGView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			EncodingKindView encodingKindView = new EncodingKindView(analysis);
-			encodingKindView.saveImage(new File(tmpPath), d);
-			encodingKindView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new EncodingKindView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			GrowthView growthView = new GrowthView(analysis);
-			growthView.saveImage(new File(tmpPath), d);
-			growthView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
-
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new GrowthView(a);
+				}
+			}, tmpPath, d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			WordView wordView = new WordView(analysis);
-			wordView.saveImage(new File(tmpPath), d);
-			wordView = null;
-
-			img = Image.getInstance(tmpPath);
-			table.addCell(img);
+			addPdfChartImage(table, analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new WordView(a);
+				}
+			}, tmpPath, d);
+			viewsDone++;
+			progressBar.setValue(viewsDone);
 
 			table.addCell("");
-
-			viewsDone++;
-			progressBar.setValue(viewsDone);
 			Misc.printMemoryInfo("pdfend");
 
 			document.add(table);
 
-			// step 5: we close the document
-			document.close();
-
 		}
-		catch (DocumentException de)
+		catch (Exception e)
 		{
-			System.err.println(de.getMessage());
+			System.err.println("PDF export failed:");
+			e.printStackTrace();
 		}
-		catch (IOException ioe)
+		finally
 		{
-			System.err.println(ioe.getMessage());
+			if (documentOpened)
+			{
+				// step 5: we close the document
+				document.close();
+			}
 		}
 	}
 
-	public static void saveListOfAlbums(JFrame window, Analysis analysis, JProgressBar progressBar)
+	private static void addPdfChartImage(PdfPTable table, Analysis analysis, ViewFactory factory, String tmpPath,
+			Dimension d) throws Exception
 	{
-		saveListOfAlbumsAsPdf(window, analysis, progressBar);
+		exportViewImage(analysis, factory, new File(tmpPath), d);
+		table.addCell(Image.getInstance(tmpPath));
+	}
+
+	private static void addPdfChartImages(PdfPTable table, Analysis analysis, ViewFactory factory, String tmpPath,
+			Dimension d) throws Exception
+	{
+		File secondaryPath = new File(tmpPath + "2");
+		exportViewImages(analysis, factory, new File(tmpPath), secondaryPath, d);
+		table.addCell(Image.getInstance(tmpPath));
+		table.addCell(Image.getInstance(secondaryPath.getAbsolutePath()));
+	}
+
+	public static void saveListOfAlbums(File file, Analysis analysis, JProgressBar progressBar)
+	{
+		saveListOfAlbumsAsPdf(file, analysis, progressBar);
 	}
 
 	public static void saveListOfAlbumsAsTxt(JFrame window, Analysis analysis, JProgressBar progressBar)
@@ -496,9 +576,8 @@ public class Share
 		}
 	}
 
-	public static void saveListOfAlbumsAsPdf(JFrame window, Analysis analysis, JProgressBar progressBar)
+	public static void saveListOfAlbumsAsPdf(File file, Analysis analysis, JProgressBar progressBar)
 	{
-		File file = askForFile(window, "pdf");
 		if (file == null)
 			return;
 
@@ -614,17 +693,16 @@ public class Share
 
 	}
 
-	public static void saveAnalysisHtml(JFrame window, Analysis analysis, JProgressBar progressBar)
+	public static void saveAnalysisHtml(File folder, Analysis analysis, JProgressBar progressBar)
 	{
 
-		File file = askForFolder(window);
-		if (file == null)
+		if (folder == null)
 			return;
 
 		// create the folder if it does not exist
-		file.mkdir();
+		folder.mkdir();
 
-		String path = file.getAbsolutePath() + File.separatorChar;
+		String path = folder.getAbsolutePath() + File.separatorChar;
 
 		Misc.printMemoryInfo("htmlstart");
 
@@ -662,97 +740,132 @@ public class Share
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			GenreView genreView = new GenreView(analysis);
-			genreView.saveImage(new File(path + "genres.png"), d);
-			genreView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new GenreView(a);
+				}
+			}, new File(path + "genres.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			AlbumLikesView likesView = new AlbumLikesView(analysis);
-			likesView.saveImage(new File(path + "likes.png"), d);
-			likesView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new AlbumLikesView(a);
+				}
+			}, new File(path + "likes.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			YearView yearView = new YearView(analysis);
-			yearView.saveImage(new File(path + "release_year.png"), d);
-			yearView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new YearView(a);
+				}
+			}, new File(path + "release_year.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			RatingView ratingView = new RatingView(analysis);
-			ratingView.saveImage(new File(path + "ratings.png"), d);
-			ratingView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new RatingView(a);
+				}
+			}, new File(path + "ratings.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			TimeView timeView = new TimeView(analysis);
-			timeView.saveImage(new File(path + "listening_times.png"), d);
-			timeView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new TimeView(a);
+				}
+			}, new File(path + "listening_times.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			QualityView qualityView = new QualityView(analysis);
-			qualityView.saveImage(new File(path + "quality.png"), d);
-			qualityView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new QualityView(a);
+				}
+			}, new File(path + "quality.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			PlayCountView playCountView = new PlayCountView(analysis);
-			playCountView.saveImage(new File(path + "play_count.png"), d);
-			playCountView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new PlayCountView(a);
+				}
+			}, new File(path + "play_count.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			MostPlayedAAView mostPlayedAAView = new MostPlayedAAView(analysis);
-			mostPlayedAAView.saveImage(new File(path + "most_played_artists.png"), d);
-			mostPlayedAAView.saveImageExtra(new File(path + "most_played_albums.png"), d);
-			mostPlayedAAView = null;
-
+			exportViewImages(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new MostPlayedAAView(a);
+				}
+			}, new File(path + "most_played_artists.png"), new File(path + "most_played_albums.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			MostPlayedDGView mostPlayedDGView = new MostPlayedDGView(analysis);
-			mostPlayedDGView.saveImage(new File(path + "most_played_decades.png"), d);
-			mostPlayedDGView.saveImageExtra(new File(path + "most_played_genres.png"), d);
-			mostPlayedDGView = null;
-
+			exportViewImages(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new MostPlayedDGView(a);
+				}
+			}, new File(path + "most_played_decades.png"), new File(path + "most_played_genres.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			EncodingKindView encodingKindView = new EncodingKindView(analysis);
-			encodingKindView.saveImage(new File(path + "encodings.png"), d);
-			encodingKindView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new EncodingKindView(a);
+				}
+			}, new File(path + "encodings.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			GrowthView growthView = new GrowthView(analysis);
-			growthView.saveImage(new File(path + "growth.png"), d);
-			growthView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new GrowthView(a);
+				}
+			}, new File(path + "growth.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 
-			WordView wordView = new WordView(analysis);
-			wordView.saveImage(new File(path + "song_words.png"), d);
-			wordView = null;
-
+			exportViewImage(analysis, new ViewFactory()
+			{
+				public IStatisticView create(Analysis a)
+				{
+					return new WordView(a);
+				}
+			}, new File(path + "song_words.png"), d);
 			viewsDone++;
 			progressBar.setValue(viewsDone);
 			Misc.printMemoryInfo("htmlend");
 
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
-			System.out.println(e.toString());
+			System.err.println("HTML export failed:");
+			e.printStackTrace();
 		}
 
 		// create the report html file
@@ -765,18 +878,19 @@ public class Share
 			InputStream is = url.openStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
-			String content = "";
-			while (in.ready())
+			StringBuffer content = new StringBuffer();
+			String line;
+			while ((line = in.readLine()) != null)
 			{
-				String line = in.readLine();
 
 				if (line.indexOf("<!--date-->") != -1)
-					content += infoString;
+					content.append(infoString);
 
 				if (line.indexOf("<!--textstats-->") != -1)
-					content += summaryHtml;
+					content.append(summaryHtml);
 
-				content += line;
+				content.append(line);
+				content.append('\n');
 			}
 
 			// now write out the file to the destination
@@ -785,7 +899,7 @@ public class Share
 				FileOutputStream os = new FileOutputStream(reportFile);
 				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
 
-				out.write(content);
+				out.write(content.toString());
 
 				out.close();
 				os.close();
